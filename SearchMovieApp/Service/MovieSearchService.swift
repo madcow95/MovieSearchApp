@@ -23,16 +23,13 @@ class MovieSearchService {
         self.youtubeKey = youtubeAPIKey
     }
     
-    func fetchPopularMovie(page: Int) -> AnyPublisher<[MovieInfo], Error> {
-        let url = URL(string: "https://api.themoviedb.org/3/discover/movie")!
+    func fetchMovie(searchType: SearchType, page: Int) -> AnyPublisher<[MovieInfo], Error> {
+        
+        let url = URL(string: searchType.searchURL)!
         var components = URLComponents(url: url, resolvingAgainstBaseURL: true)!
         let queryItems: [URLQueryItem] = [
-          URLQueryItem(name: "include_adult", value: "true"),
-          URLQueryItem(name: "include_video", value: "false"),
-          URLQueryItem(name: "language", value: "ko-KR"),
-          URLQueryItem(name: "page", value: "\(page)"),
-          URLQueryItem(name: "sort_by", value: "popularity.desc"),
-          URLQueryItem(name: "year", value: "2024")
+            URLQueryItem(name: "language", value: "ko-KR"),
+            URLQueryItem(name: "page", value: "1"),
         ]
         components.queryItems = queryItems
         
@@ -40,8 +37,8 @@ class MovieSearchService {
         request.httpMethod = "GET"
         request.timeoutInterval = 10
         request.allHTTPHeaderFields = [
-          "accept": "application/json",
-          "Authorization": "Bearer \(movieKey!)"
+            "accept": "application/json",
+            "Authorization": "Bearer \(movieKey!)"
         ]
         
         return URLSession.shared.dataTaskPublisher(for: request)
@@ -62,6 +59,7 @@ class MovieSearchService {
                 let movie = try JSONDecoder().decode(MovieModel.self, from: data)
                 return movie.results
             }
+            .share()
             .eraseToAnyPublisher()
     }
     

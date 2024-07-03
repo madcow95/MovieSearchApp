@@ -48,3 +48,20 @@ struct MovieInfo: Decodable {
         case voteCount = "vote_count"
     }
 }
+
+enum SearchType {
+    case weeklyPopular
+    case onPlaying
+    
+    var searchURL: String {
+        get {
+            let baseURL: String = "https://api.themoviedb.org/3"
+            switch self {
+            case .weeklyPopular:
+                return "\(baseURL)/trending/movie/week"
+            case .onPlaying:
+                return "\(baseURL)/movie/now_playing"
+            }
+        }
+    }
+}

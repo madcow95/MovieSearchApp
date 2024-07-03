@@ -19,7 +19,6 @@ class HorizontalScrollView: UIScrollView {
     }
     
     convenience init(
-        width: CGFloat,
         height: CGFloat
     ) {
         self.init()
@@ -35,12 +34,11 @@ class HorizontalScrollView: UIScrollView {
             content.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             content.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             content.heightAnchor.constraint(equalToConstant: height),
-//            content.widthAnchor.constraint(equalToConstant: width),
         ])
     }
     
     func setContentView() {
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.showsHorizontalScrollIndicator = true
+        self.showsHorizontalScrollIndicator = false
     }
 }

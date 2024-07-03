@@ -10,37 +10,29 @@ import Combine
 
 class MovieHomeViewModel {
     @Published var popularMovies: [MovieInfo] = []
+    @Published var onPlayingMovies: [MovieInfo] = []
     
     private var cancellable = Set<AnyCancellable>()
     let service = MovieSearchService()
     
-    func fetchPopularMovie() {
-        service.fetchPopularMovie(page: 1)
+    func fetchMovies(searchType: SearchType, page: Int) {
+        service.fetchMovie(searchType: searchType, page: page)
             .receive(on: DispatchQueue.global())
             .sink { completion in
                 switch completion {
                 case .finished:
                     break
                 case .failure(let error):
-                    print("error in fetchPopularmovie : \(error.localizedDescription)")
+                    print("error while fetchMovies : \(error.localizedDescription)")
                 }
             } receiveValue: { [weak self] movies in
                 guard let self = self else { return }
-                self.popularMovies = movies
+                if searchType == .weeklyPopular {
+                    self.popularMovies = movies
+                } else {
+                    self.onPlayingMovies = movies
+                }
             }
             .store(in: &cancellable)
-    }
-    
-    func fetchPosterImage(posterURL: String) {
-        do {
-            try service.getPosterImage(posterURL: posterURL)
-                .sink { [weak self] poster in
-                    guard let self = self else { return }
-                    
-                }
-                .store(in: &cancellable)
-        } catch {
-            
-        }
     }
 }

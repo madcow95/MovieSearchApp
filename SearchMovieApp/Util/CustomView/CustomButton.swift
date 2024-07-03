@@ -24,7 +24,7 @@ class LabelButton: UIButton {
         self.init()
         
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        self.heightAnchor.constraint(equalToConstant: 40).isActive = true
         self.setTitle(label, for: .normal)
         self.setImage(buttonImage, for: .normal)
         self.setTitleColor(buttonColor, for: .normal)
