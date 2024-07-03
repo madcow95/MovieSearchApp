@@ -5,11 +5,11 @@
 //  Created by MadCow on 2024/7/2.
 //
 
-import Foundation
+import UIKit
 
 struct MovieModel: Decodable {
     let page: Int
-    let results: [Result]
+    let results: [MovieInfo]
     let totalPages, totalResults: Int
 
     enum CodingKeys: String, CodingKey {
@@ -21,7 +21,7 @@ struct MovieModel: Decodable {
 }
 
 // MARK: - Result
-struct Result: Decodable {
+struct MovieInfo: Decodable {
     let adult: Bool
     let backdropPath: String
     let genreIDS: [Int]
@@ -32,7 +32,8 @@ struct Result: Decodable {
     let video: Bool
     let voteAverage: Double
     let voteCount: Int
-
+    var posterImage: UIImage? = nil
+    
     enum CodingKeys: String, CodingKey {
         case adult
         case backdropPath = "backdrop_path"
