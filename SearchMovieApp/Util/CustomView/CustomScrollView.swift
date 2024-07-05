@@ -22,18 +22,19 @@ class HorizontalScrollView: UIScrollView {
         height: CGFloat
     ) {
         self.init()
-        
         let content = UIView()
         content.translatesAutoresizingMaskIntoConstraints = false
         
         self.addSubview(content)
         
         NSLayoutConstraint.activate([
+            self.heightAnchor.constraint(equalToConstant: height),
+            
             content.topAnchor.constraint(equalTo: self.topAnchor),
             content.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             content.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             content.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            content.heightAnchor.constraint(equalToConstant: height),
+//            content.heightAnchor.constraint(equalToConstant: height),
         ])
     }
     

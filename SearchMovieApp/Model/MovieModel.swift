@@ -13,7 +13,7 @@ struct MovieModel: Decodable {
     let totalPages, totalResults: Int
 
     enum CodingKeys: String, CodingKey {
-        case page = "page"
+        case page
         case results
         case totalPages = "total_pages"
         case totalResults = "total_results"
@@ -23,22 +23,22 @@ struct MovieModel: Decodable {
 // MARK: - Result
 struct MovieInfo: Decodable {
     let adult: Bool
-    let backdropPath: String
+    let backdropPath: String?
     let genreIDS: [Int]
     let id: Int
-    let originalTitle, overview: String
+    let originalLanguage, originalTitle, overview: String
     let popularity: Double
     let posterPath, releaseDate, title: String
     let video: Bool
     let voteAverage: Double
     let voteCount: Int
-    var posterImage: UIImage? = nil
     
     enum CodingKeys: String, CodingKey {
         case adult
         case backdropPath = "backdrop_path"
         case genreIDS = "genre_ids"
         case id
+        case originalLanguage = "original_language"
         case originalTitle = "original_title"
         case overview, popularity
         case posterPath = "poster_path"
@@ -52,6 +52,7 @@ struct MovieInfo: Decodable {
 enum SearchType {
     case weeklyPopular
     case onPlaying
+    case upComing
     
     var searchURL: String {
         get {
@@ -61,7 +62,53 @@ enum SearchType {
                 return "\(baseURL)/trending/movie/week"
             case .onPlaying:
                 return "\(baseURL)/movie/now_playing"
+            case .upComing:
+                return "\(baseURL)/movie/upcoming"
             }
+        }
+    }
+    
+    var searchQuery: [URLQueryItem] {
+        get {
+            let baseQueryItem = URLQueryItem(name: "language", value: "ko-KR")
+            switch self {
+            case .weeklyPopular:
+                return [
+                    baseQueryItem,
+                    URLQueryItem(name: "page", value: "1")
+                ]
+            case .onPlaying:
+                return [
+                    baseQueryItem,
+                    URLQueryItem(name: "page", value: "1")
+                ]
+            case .upComing:
+                return [
+                    baseQueryItem,
+                    URLQueryItem(name: "page", value: "1")
+                ]
+            }
+        }
+    }
+    
+    func getSearchQuery(page: Int) -> [URLQueryItem] {
+        let baseQueryItem = URLQueryItem(name: "language", value: "ko-KR")
+        switch self {
+        case .weeklyPopular:
+            return [
+                baseQueryItem,
+                URLQueryItem(name: "page", value: "\(page)")
+            ]
+        case .onPlaying:
+            return [
+                baseQueryItem,
+                URLQueryItem(name: "page", value: "\(page)")
+            ]
+        case .upComing:
+            return [
+                baseQueryItem,
+                URLQueryItem(name: "page", value: "\(page)")
+            ]
         }
     }
 }

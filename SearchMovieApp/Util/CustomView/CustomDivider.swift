@@ -22,6 +22,7 @@ class CustomDivider: UIView {
     func setDivider() {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.heightAnchor.constraint(equalToConstant: 1).isActive = true
-        self.tintColor = .lightGray
+        self.layer.borderWidth = 1
+        self.layer.borderColor = UIColor.lightGray.cgColor
     }
 }

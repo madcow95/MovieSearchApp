@@ -27,7 +27,7 @@ class LabelButton: UIButton {
         self.heightAnchor.constraint(equalToConstant: 40).isActive = true
         self.setTitle(label, for: .normal)
         self.setImage(buttonImage, for: .normal)
-        self.setTitleColor(buttonColor, for: .normal)
+        self.setTitleColor(.white, for: .normal)
         self.semanticContentAttribute = .forceRightToLeft // title과 image의 위치 변경
     }
 }

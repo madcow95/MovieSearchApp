@@ -27,11 +27,8 @@ class MovieSearchService {
         
         let url = URL(string: searchType.searchURL)!
         var components = URLComponents(url: url, resolvingAgainstBaseURL: true)!
-        let queryItems: [URLQueryItem] = [
-            URLQueryItem(name: "language", value: "ko-KR"),
-            URLQueryItem(name: "page", value: "1"),
-        ]
-        components.queryItems = queryItems
+        let queryItems: [URLQueryItem] = searchType.getSearchQuery(page: page)
+        components.queryItems = components.queryItems.map { $0 + queryItems } ?? queryItems
         
         var request = URLRequest(url: components.url!)
         request.httpMethod = "GET"
