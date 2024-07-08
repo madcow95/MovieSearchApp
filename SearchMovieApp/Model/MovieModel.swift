@@ -57,7 +57,7 @@ struct MovieInfo: Decodable {
 
 enum SearchType {
     case weeklyPopular
-    case onPlaying
+    case famous
     case upComing
     
     var searchURL: String {
@@ -66,33 +66,10 @@ enum SearchType {
             switch self {
             case .weeklyPopular:
                 return "\(baseURL)/trending/movie/week"
-            case .onPlaying:
-                return "\(baseURL)/movie/now_playing"
+            case .famous:
+                return "\(baseURL)/movie/top_rated"
             case .upComing:
                 return "\(baseURL)/movie/upcoming"
-            }
-        }
-    }
-    
-    var searchQuery: [URLQueryItem] {
-        get {
-            let baseQueryItem = URLQueryItem(name: "language", value: "ko-KR")
-            switch self {
-            case .weeklyPopular:
-                return [
-                    baseQueryItem,
-                    URLQueryItem(name: "page", value: "1")
-                ]
-            case .onPlaying:
-                return [
-                    baseQueryItem,
-                    URLQueryItem(name: "page", value: "1")
-                ]
-            case .upComing:
-                return [
-                    baseQueryItem,
-                    URLQueryItem(name: "page", value: "1")
-                ]
             }
         }
     }
@@ -105,7 +82,7 @@ enum SearchType {
                 baseQueryItem,
                 URLQueryItem(name: "page", value: "\(page)")
             ]
-        case .onPlaying:
+        case .famous:
             return [
                 baseQueryItem,
                 URLQueryItem(name: "page", value: "\(page)")

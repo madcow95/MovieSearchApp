@@ -10,7 +10,7 @@ import Combine
 
 class MovieHomeViewModel {
     @Published var popularMovies: [MovieInfo] = []
-    @Published var onPlayingMovies: [MovieInfo] = []
+    @Published var famousMovies: [MovieInfo] = []
     @Published var upComingMovies: MovieModel? = nil
     
     private var cancellable = Set<AnyCancellable>()
@@ -30,8 +30,8 @@ class MovieHomeViewModel {
                 guard let self = self else { return }
                 if searchType == .weeklyPopular {
                     self.popularMovies = movie.results
-                } else if searchType == .onPlaying {
-                    self.onPlayingMovies = movie.results
+                } else if searchType == .famous {
+                    self.famousMovies = movie.results
                 } else if searchType == .upComing {
                     self.upComingMovies = movie
                 }
