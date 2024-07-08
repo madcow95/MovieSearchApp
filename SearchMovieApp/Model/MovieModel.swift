@@ -8,16 +8,22 @@
 import UIKit
 
 struct MovieModel: Decodable {
+    let dates: Dates?
     let page: Int
     let results: [MovieInfo]
     let totalPages, totalResults: Int
 
     enum CodingKeys: String, CodingKey {
+        case dates
         case page
         case results
         case totalPages = "total_pages"
         case totalResults = "total_results"
     }
+}
+
+struct Dates: Decodable {
+    let maximum, minimum: String
 }
 
 // MARK: - Result

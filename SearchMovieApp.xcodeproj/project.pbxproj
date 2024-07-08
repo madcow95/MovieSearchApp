@@ -10,10 +10,11 @@
 		CD6D7AB22C35305900AAEBCD /* CustomDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6D7AB12C35305900AAEBCD /* CustomDivider.swift */; };
 		CD72DD502C37C8B600B7C4DD /* MovieDetailListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD72DD4F2C37C8B600B7C4DD /* MovieDetailListViewController.swift */; };
 		CD72DD522C37CA3300B7C4DD /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD72DD512C37CA3300B7C4DD /* Util.swift */; };
+		CDED50B62C3C0F2D002FF01F /* MovieHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDED50B52C3C0F2D002FF01F /* MovieHomeView.swift */; };
+		CDED50B92C3C10C2002FF01F /* MovieHomeViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDED50B82C3C10C2002FF01F /* MovieHomeViewCell.swift */; };
 		CDF1EF532C34391600DDE77E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDF1EF522C34391600DDE77E /* AppDelegate.swift */; };
 		CDF1EF552C34391600DDE77E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDF1EF542C34391600DDE77E /* SceneDelegate.swift */; };
 		CDF1EF5C2C34391700DDE77E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CDF1EF5B2C34391700DDE77E /* Assets.xcassets */; };
-		CDF1EF6C2C3439F600DDE77E /* MovieHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDF1EF6B2C3439F600DDE77E /* MovieHomeViewController.swift */; };
 		CDF1EF702C343A4400DDE77E /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDF1EF6F2C343A4400DDE77E /* CustomButton.swift */; };
 		CDF1EF722C343E0300DDE77E /* CustomScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDF1EF712C343E0300DDE77E /* CustomScrollView.swift */; };
 		CDF1EF752C343FE900DDE77E /* MovieSearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDF1EF742C343FE900DDE77E /* MovieSearchService.swift */; };
@@ -26,12 +27,13 @@
 		CD6D7AB12C35305900AAEBCD /* CustomDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDivider.swift; sourceTree = "<group>"; };
 		CD72DD4F2C37C8B600B7C4DD /* MovieDetailListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailListViewController.swift; sourceTree = "<group>"; };
 		CD72DD512C37CA3300B7C4DD /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
+		CDED50B52C3C0F2D002FF01F /* MovieHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieHomeView.swift; sourceTree = "<group>"; };
+		CDED50B82C3C10C2002FF01F /* MovieHomeViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieHomeViewCell.swift; sourceTree = "<group>"; };
 		CDF1EF4F2C34391600DDE77E /* SearchMovieApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SearchMovieApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDF1EF522C34391600DDE77E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CDF1EF542C34391600DDE77E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		CDF1EF5B2C34391700DDE77E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CDF1EF602C34391700DDE77E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CDF1EF6B2C3439F600DDE77E /* MovieHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieHomeViewController.swift; sourceTree = "<group>"; };
 		CDF1EF6F2C343A4400DDE77E /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		CDF1EF712C343E0300DDE77E /* CustomScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomScrollView.swift; sourceTree = "<group>"; };
 		CDF1EF732C343FB600DDE77E /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
@@ -52,6 +54,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CDED50B72C3C10B7002FF01F /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				CDED50B82C3C10C2002FF01F /* MovieHomeViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		CDF1EF462C34391600DDE77E = {
 			isa = PBXGroup;
 			children = (
@@ -87,8 +97,9 @@
 		CDF1EF662C34399900DDE77E /* View */ = {
 			isa = PBXGroup;
 			children = (
-				CDF1EF6B2C3439F600DDE77E /* MovieHomeViewController.swift */,
+				CDED50B72C3C10B7002FF01F /* Cell */,
 				CD72DD4F2C37C8B600B7C4DD /* MovieDetailListViewController.swift */,
+				CDED50B52C3C0F2D002FF01F /* MovieHomeView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -139,8 +150,8 @@
 		CDF1EF6E2C343A3800DDE77E /* CustomView */ = {
 			isa = PBXGroup;
 			children = (
-				CDF1EF6F2C343A4400DDE77E /* CustomButton.swift */,
 				CDF1EF712C343E0300DDE77E /* CustomScrollView.swift */,
+				CDF1EF6F2C343A4400DDE77E /* CustomButton.swift */,
 				CD6D7AB12C35305900AAEBCD /* CustomDivider.swift */,
 			);
 			path = CustomView;
@@ -225,7 +236,6 @@
 			files = (
 				CDF1EF702C343A4400DDE77E /* CustomButton.swift in Sources */,
 				CD72DD502C37C8B600B7C4DD /* MovieDetailListViewController.swift in Sources */,
-				CDF1EF6C2C3439F600DDE77E /* MovieHomeViewController.swift in Sources */,
 				CDF1EF7C2C3441A100DDE77E /* MovieHomeViewModel.swift in Sources */,
 				CDF1EF752C343FE900DDE77E /* MovieSearchService.swift in Sources */,
 				CD6D7AB22C35305900AAEBCD /* CustomDivider.swift in Sources */,
@@ -234,6 +244,8 @@
 				CDF1EF7A2C34413B00DDE77E /* MovieModel.swift in Sources */,
 				CDF1EF782C34402000DDE77E /* MovieSearchError.swift in Sources */,
 				CDF1EF552C34391600DDE77E /* SceneDelegate.swift in Sources */,
+				CDED50B62C3C0F2D002FF01F /* MovieHomeView.swift in Sources */,
+				CDED50B92C3C10C2002FF01F /* MovieHomeViewCell.swift in Sources */,
 				CDF1EF722C343E0300DDE77E /* CustomScrollView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

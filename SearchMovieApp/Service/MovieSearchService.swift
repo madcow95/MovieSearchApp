@@ -23,7 +23,7 @@ class MovieSearchService {
         self.youtubeKey = youtubeAPIKey
     }
     
-    func fetchMovie(searchType: SearchType, page: Int) -> AnyPublisher<[MovieInfo], Error> {
+    func fetchMovie(searchType: SearchType, page: Int) -> AnyPublisher<MovieModel, Error> {
         
         let url = URL(string: searchType.searchURL)!
         var components = URLComponents(url: url, resolvingAgainstBaseURL: true)!
@@ -53,8 +53,8 @@ class MovieSearchService {
                     break
                 }
                 
-                let movie = try JSONDecoder().decode(MovieModel.self, from: data)
-                return movie.results
+                /*let movie = */return try JSONDecoder().decode(MovieModel.self, from: data)
+//                return movie.results
             }
             .share()
             .eraseToAnyPublisher()
@@ -66,6 +66,7 @@ class MovieSearchService {
         }
         
         return URLSession.shared.dataTaskPublisher(for: url)
+            .receive(on: DispatchQueue.global())
             .tryMap{ (data, _) in
                 // MARK: TODO - response 에러처리
                 return UIImage(data: data)

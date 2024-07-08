@@ -7,39 +7,36 @@
 
 import UIKit
 
-class HorizontalScrollView: UIScrollView {
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setContentView()
+class CustomHorizontalScroll: UICollectionView {
+    
+    private let popularMovieCollectionViewFlowLayout: UICollectionViewFlowLayout = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.minimumInteritemSpacing = 9
+        layout.itemSize = CGSize(width: 150, height: 250)
+        layout.collectionView?.backgroundColor = .white
+        
+        return layout
+    }()
+    
+    override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
+        super.init(frame: frame, collectionViewLayout: popularMovieCollectionViewFlowLayout)
+        configureCollectionView()
     }
     
     required init?(coder: NSCoder) {
-        self.init()
-        setContentView()
+        super.init(coder: coder)
+        configureCollectionView()
     }
     
-    convenience init(
-        height: CGFloat
-    ) {
-        self.init()
-        let content = UIView()
-        content.translatesAutoresizingMaskIntoConstraints = false
-        
-        self.addSubview(content)
-        
-        NSLayoutConstraint.activate([
-            self.heightAnchor.constraint(equalToConstant: height),
-            
-            content.topAnchor.constraint(equalTo: self.topAnchor),
-            content.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            content.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            content.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-//            content.heightAnchor.constraint(equalToConstant: height),
-        ])
-    }
-    
-    func setContentView() {
-        self.translatesAutoresizingMaskIntoConstraints = false
+    func configureCollectionView() {
+        self.heightAnchor.constraint(equalToConstant: 250).isActive = true
+        self.isScrollEnabled = true
         self.showsHorizontalScrollIndicator = false
+        self.showsVerticalScrollIndicator = true
+        self.contentInset = .zero
+        self.backgroundColor = .clear
+        self.clipsToBounds = true
+        self.translatesAutoresizingMaskIntoConstraints = false
     }
 }

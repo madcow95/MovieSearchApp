@@ -11,7 +11,7 @@ import Combine
 class MovieHomeViewModel {
     @Published var popularMovies: [MovieInfo] = []
     @Published var onPlayingMovies: [MovieInfo] = []
-    @Published var upComingMovies: [MovieInfo] = []
+    @Published var upComingMovies: MovieModel? = nil
     
     private var cancellable = Set<AnyCancellable>()
     let service = MovieSearchService()
@@ -26,14 +26,14 @@ class MovieHomeViewModel {
                 case .failure(let error):
                     print("error while fetchMovies : \(error.localizedDescription)")
                 }
-            } receiveValue: { [weak self] movies in
+            } receiveValue: { [weak self] movie in
                 guard let self = self else { return }
                 if searchType == .weeklyPopular {
-                    self.popularMovies = movies
+                    self.popularMovies = movie.results
                 } else if searchType == .onPlaying {
-                    self.onPlayingMovies = movies
+                    self.onPlayingMovies = movie.results
                 } else if searchType == .upComing {
-                    self.upComingMovies = movies
+                    self.upComingMovies = movie
                 }
             }
             .store(in: &cancellable)
