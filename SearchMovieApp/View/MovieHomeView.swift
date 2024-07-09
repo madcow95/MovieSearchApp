@@ -10,15 +10,19 @@ import Combine
 
 class MovieHomeView: UIViewController {
     
+    
     // UI Components
     private let scrollView = UIScrollView()
     private let contentView = UIView()
+    private let searchController = UISearchController()
     private lazy var popularMovieButton = LabelButton(label: "주간 인기 영화")
     private lazy var popularMovieCollection = CustomHorizontalScroll()
     private lazy var famousMovieButton = LabelButton(label: "역대 평점 높은 영화")
     private lazy var famousMovieCollection = CustomHorizontalScroll()
     private lazy var upComingMovieButton = LabelButton(label: "개봉 예정 영화")
     private lazy var upComingMovieCollection = CustomHorizontalScroll()
+    let resultsTableViewController = UITableViewController()
+    let resultsTableView = UITableView()
     private var prevBottomAnchor: NSLayoutYAxisAnchor!
     
     // Data Source
@@ -72,12 +76,24 @@ class MovieHomeView: UIViewController {
             }
             .store(in: &cancellables)
         
+        viewModel.$searchedMovies
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] movies in
+                guard let self = self else { return }
+                print(movies)
+                if movies.count > 0 {
+                    self.resultsTableViewController.tableView.reloadData()
+                }
+            }
+            .store(in: &cancellables)
+        
         viewModel.fetchMovies(searchType: .weeklyPopular, page: 1)
         viewModel.fetchMovies(searchType: .famous, page: 1)
         viewModel.fetchMovies(searchType: .upComing, page: 1)
     }
     
     func setLabelButtonAction() {
+        // MARK: - 반복문으로 처리?
         popularMovieButton.addAction(UIAction{ [weak self] _ in
             guard let self = self else { return }
             let detailListView = MovieDetailListViewController()
@@ -101,20 +117,38 @@ class MovieHomeView: UIViewController {
     }
     
     func configureUI() {
+        
+//        print(self.navigationController!.navigationItem.titleView!.frame.height)
+//        print(self.searchController.searchBar.frame.height)
+//        let y = self.navigationController!.navigationBar.frame.height + self.searchController.searchBar.frame.height
         self.view.backgroundColor = .black
         setNavigationBar()
         setMainScrollView()
         setPopularMovieScrollView()
         setFamousMovieScrollView()
         setUpComingMovieScrollView()
+        
+        resultsTableView.delegate = self
+        resultsTableView.dataSource = self
+        resultsTableView.frame = CGRect(x: 0, y: view.frame.height / 9, width: view.frame.width, height: view.frame.height)
+        resultsTableView.alpha = 0.0
+        resultsTableViewController.tableView = resultsTableView
+        
+        // 결과 테이블뷰를 뷰에 추가
+        view.addSubview(resultsTableView)
     }
     
     func setNavigationBar() {
+        // MARK: TODO - button item 선택 -> 검색창 생성 -> 영화 검색 목록
         self.title = "Movie Search"
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"),
-                                                                 style: .done,
-                                                                 target: self,
-                                                                 action: #selector(searchTapped))
+        
+        navigationItem.hidesSearchBarWhenScrolling = false
+        searchController.searchBar.delegate = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search"
+        searchController.searchBar.sizeToFit()
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
     }
     
     func setMainScrollView() {
@@ -213,10 +247,6 @@ class MovieHomeView: UIViewController {
         
         prevBottomAnchor = divider.bottomAnchor
     }
-    
-    @objc func searchTapped() {
-        print("search!")
-    }
 }
 
 extension MovieHomeView: UICollectionViewDataSource, UICollectionViewDelegate {
@@ -266,6 +296,7 @@ extension MovieHomeView: UICollectionViewDataSource, UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // MARK: TODO - 영화 상세 목록 페이지로 이동
         var movie: MovieInfo? = nil
         if collectionView == self.popularMovieCollection {
             movie = viewModel.popularMovies[indexPath.row]
@@ -278,5 +309,41 @@ extension MovieHomeView: UICollectionViewDataSource, UICollectionViewDelegate {
         }
         
         print(movie!.title)
+    }
+}
+
+extension MovieHomeView: UISearchBarDelegate {
+    // MARK: TODO - 키보드에서 입력할 때마다 debounce로 api호출로 수정
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.count > 0 {
+            viewModel.searchText = searchText
+        }
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        UIView.animate(withDuration: 0.3) {
+            self.resultsTableViewController.tableView.alpha = 1.0
+        }
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        UIView.animate(withDuration: 0.3) {
+            self.resultsTableViewController.tableView.alpha = 0.0
+        }
+    }
+}
+
+extension MovieHomeView: UITableViewDelegate, UITableViewDataSource {
+    
+    // 테이블뷰 데이터 소스 메서드
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // 결과 데이터의 개수를 반환
+        return 10 // 예시로 10개의 행을 반환
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
+        cell.textLabel?.text = "Result \(indexPath.row)"
+        return cell
     }
 }

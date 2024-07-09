@@ -17,7 +17,8 @@ class MovieHomeViewCell: UICollectionViewCell {
         img.translatesAutoresizingMaskIntoConstraints = false
         img.widthAnchor.constraint(equalToConstant: 150).isActive = true
         img.heightAnchor.constraint(equalToConstant: 200).isActive = true
-        img.contentMode = .scaleAspectFit
+        img.backgroundColor = .lightGray
+        img.contentMode = .scaleAspectFill
         
         return img
     }()
@@ -42,7 +43,6 @@ class MovieHomeViewCell: UICollectionViewCell {
     }
     
     func configureCell(movie: MovieInfo) {
-        
         self.titleLabel.text = movie.title
         do {
             try viewModel.service.getPosterImage(posterURL: movie.posterPath)

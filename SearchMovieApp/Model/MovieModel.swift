@@ -59,6 +59,7 @@ enum SearchType {
     case weeklyPopular
     case famous
     case upComing
+    case search
     
     var searchURL: String {
         get {
@@ -70,11 +71,13 @@ enum SearchType {
                 return "\(baseURL)/movie/top_rated"
             case .upComing:
                 return "\(baseURL)/movie/upcoming"
+            case .search:
+                return "\(baseURL)/search/movie"
             }
         }
     }
     
-    func getSearchQuery(page: Int) -> [URLQueryItem] {
+    func getSearchQuery(page: Int, query: String = "") -> [URLQueryItem] {
         let baseQueryItem = URLQueryItem(name: "language", value: "ko-KR")
         switch self {
         case .weeklyPopular:
@@ -89,6 +92,13 @@ enum SearchType {
             ]
         case .upComing:
             return [
+                baseQueryItem,
+                URLQueryItem(name: "page", value: "\(page)")
+            ]
+        case .search:
+            return [
+                URLQueryItem(name: "query", value: query),
+                URLQueryItem(name: "include_adult", value: "true"),
                 baseQueryItem,
                 URLQueryItem(name: "page", value: "\(page)")
             ]

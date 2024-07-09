@@ -23,11 +23,11 @@ class MovieSearchService {
         self.youtubeKey = youtubeAPIKey
     }
     
-    func fetchMovie(searchType: SearchType, page: Int) -> AnyPublisher<MovieModel, Error> {
+    func fetchMovie(searchType: SearchType, page: Int, query: String = "") -> AnyPublisher<MovieModel, Error> {
         
         let url = URL(string: searchType.searchURL)!
         var components = URLComponents(url: url, resolvingAgainstBaseURL: true)!
-        let queryItems: [URLQueryItem] = searchType.getSearchQuery(page: page)
+        let queryItems: [URLQueryItem] = searchType.getSearchQuery(page: page, query: query)
         components.queryItems = components.queryItems.map { $0 + queryItems } ?? queryItems
         
         var request = URLRequest(url: components.url!)
@@ -53,8 +53,7 @@ class MovieSearchService {
                     break
                 }
                 
-                /*let movie = */return try JSONDecoder().decode(MovieModel.self, from: data)
-//                return movie.results
+                return try JSONDecoder().decode(MovieModel.self, from: data)
             }
             .share()
             .eraseToAnyPublisher()
