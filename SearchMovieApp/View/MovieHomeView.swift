@@ -80,7 +80,6 @@ class MovieHomeView: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] movies in
                 guard let self = self else { return }
-                print(movies)
                 if movies.count > 0 {
                     self.resultsTableViewController.tableView.reloadData()
                 }
@@ -338,12 +337,15 @@ extension MovieHomeView: UITableViewDelegate, UITableViewDataSource {
     // 테이블뷰 데이터 소스 메서드
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // 결과 데이터의 개수를 반환
-        return 10 // 예시로 10개의 행을 반환
+        return viewModel.searchedMovies.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
-        cell.textLabel?.text = "Result \(indexPath.row)"
+        if viewModel.searchedMovies.count > 0 {
+            let movie = viewModel.searchedMovies[indexPath.row]
+            cell.textLabel?.text = movie.title
+        }
         return cell
     }
 }
