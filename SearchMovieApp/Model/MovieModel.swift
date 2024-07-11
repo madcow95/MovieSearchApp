@@ -60,24 +60,25 @@ enum SearchType {
     case famous
     case upComing
     case search
+    case detail
     
-    var searchURL: String {
-        get {
-            let baseURL: String = "https://api.themoviedb.org/3"
-            switch self {
-            case .weeklyPopular:
-                return "\(baseURL)/trending/movie/week"
-            case .famous:
-                return "\(baseURL)/movie/top_rated"
-            case .upComing:
-                return "\(baseURL)/movie/upcoming"
-            case .search:
-                return "\(baseURL)/search/movie"
-            }
+    func getSearchURL(id: Int = 0) -> String {
+        let baseURL: String = "https://api.themoviedb.org/3"
+        switch self {
+        case .weeklyPopular:
+            return "\(baseURL)/trending/movie/week"
+        case .famous:
+            return "\(baseURL)/movie/top_rated"
+        case .upComing:
+            return "\(baseURL)/movie/upcoming"
+        case .search:
+            return "\(baseURL)/search/movie"
+        case .detail:
+            return "\(baseURL)/movie/\(id)"
         }
     }
     
-    func getSearchQuery(page: Int, query: String = "") -> [URLQueryItem] {
+    func getSearchQuery(page: Int = 1, query: String = "") -> [URLQueryItem] {
         let baseQueryItem = URLQueryItem(name: "language", value: "ko-KR")
         switch self {
         case .weeklyPopular:
@@ -101,6 +102,10 @@ enum SearchType {
                 URLQueryItem(name: "include_adult", value: "true"),
                 baseQueryItem,
                 URLQueryItem(name: "page", value: "\(page)")
+            ]
+        case .detail:
+            return [
+                baseQueryItem
             ]
         }
     }

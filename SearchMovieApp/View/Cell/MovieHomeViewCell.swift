@@ -12,6 +12,15 @@ class MovieHomeViewCell: UICollectionViewCell {
     
     let viewModel = MovieHomeViewModel()
     private var cancellable = Set<AnyCancellable>()
+    private var hStack: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.spacing = 15
+        stack.distribution = .equalSpacing
+        stack.alignment = .center
+        
+        return stack
+    }()
     private var posterView: UIImageView = {
         let img = UIImageView()
         img.translatesAutoresizingMaskIntoConstraints = false

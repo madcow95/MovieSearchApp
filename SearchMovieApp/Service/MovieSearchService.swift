@@ -23,9 +23,9 @@ class MovieSearchService {
         self.youtubeKey = youtubeAPIKey
     }
     
-    func fetchMovie(searchType: SearchType, page: Int, query: String = "") -> AnyPublisher<MovieModel, Error> {
+    func fetchMovie(searchType: SearchType, page: Int, query: String = "") -> AnyPublisher<MovieModel, any Error> {
         
-        let url = URL(string: searchType.searchURL)!
+        let url = URL(string: searchType.getSearchURL())!
         var components = URLComponents(url: url, resolvingAgainstBaseURL: true)!
         let queryItems: [URLQueryItem] = searchType.getSearchQuery(page: page, query: query)
         components.queryItems = components.queryItems.map { $0 + queryItems } ?? queryItems
@@ -54,6 +54,44 @@ class MovieSearchService {
                 }
                 
                 return try JSONDecoder().decode(MovieModel.self, from: data)
+            }
+            .share()
+            .eraseToAnyPublisher()
+    }
+    
+    func getMovieDetailInfo(id: Int) throws -> AnyPublisher<MovieDetail?, any Error> {
+        guard let url = URL(string: "https://api.themoviedb.org/3/movie/\(id)") else {
+            throw MovieSearchError.urlError
+        }
+        var components = URLComponents(url: url, resolvingAgainstBaseURL: true)!
+        let queryItems: [URLQueryItem] = SearchType.detail.getSearchQuery()
+        components.queryItems = components.queryItems.map { $0 + queryItems } ?? queryItems
+        
+        var request = URLRequest(url: components.url!)
+        request.httpMethod = "GET"
+        request.timeoutInterval = 10
+        request.allHTTPHeaderFields = [
+            "accept": "application/json",
+            "Authorization": "Bearer \(movieKey!)"
+        ]
+        
+        return URLSession.shared.dataTaskPublisher(for: request)
+            .receive(on: DispatchQueue.global())
+            .tryMap{ (data, response) in
+                guard let responseStatus = response as? HTTPURLResponse else {
+                    throw MovieSearchError.urlError
+                }
+                
+                switch responseStatus.statusCode {
+                case 300..<400:
+                    throw MovieSearchError.urlError
+                case 400..<500:
+                    throw MovieSearchError.serverError
+                default:
+                    break
+                }
+                print(String(decoding: data, as: UTF8.self))
+                return try JSONDecoder().decode(MovieDetail.self, from: data)
             }
             .share()
             .eraseToAnyPublisher()

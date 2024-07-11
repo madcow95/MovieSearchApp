@@ -21,8 +21,8 @@ class MovieHomeView: UIViewController {
     private lazy var famousMovieCollection = CustomHorizontalScroll()
     private lazy var upComingMovieButton = LabelButton(label: "개봉 예정 영화")
     private lazy var upComingMovieCollection = CustomHorizontalScroll()
-    let resultsTableViewController = UITableViewController()
-    let resultsTableView = UITableView()
+    private lazy var searchResultsTableViewController = UITableViewController()
+    private lazy var searchResultsTableView = UITableView()
     private var prevBottomAnchor: NSLayoutYAxisAnchor!
     
     // Data Source
@@ -80,9 +80,7 @@ class MovieHomeView: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] movies in
                 guard let self = self else { return }
-                if movies.count > 0 {
-                    self.resultsTableViewController.tableView.reloadData()
-                }
+                self.searchResultsTableViewController.tableView.reloadData()
             }
             .store(in: &cancellables)
         
@@ -117,9 +115,6 @@ class MovieHomeView: UIViewController {
     
     func configureUI() {
         
-//        print(self.navigationController!.navigationItem.titleView!.frame.height)
-//        print(self.searchController.searchBar.frame.height)
-//        let y = self.navigationController!.navigationBar.frame.height + self.searchController.searchBar.frame.height
         self.view.backgroundColor = .black
         setNavigationBar()
         setMainScrollView()
@@ -127,14 +122,14 @@ class MovieHomeView: UIViewController {
         setFamousMovieScrollView()
         setUpComingMovieScrollView()
         
-        resultsTableView.delegate = self
-        resultsTableView.dataSource = self
-        resultsTableView.frame = CGRect(x: 0, y: view.frame.height / 9, width: view.frame.width, height: view.frame.height)
-        resultsTableView.alpha = 0.0
-        resultsTableViewController.tableView = resultsTableView
+        searchResultsTableView.delegate = self
+        searchResultsTableView.dataSource = self
+        searchResultsTableView.frame = CGRect(x: 0, y: 104, width: view.frame.width, height: view.frame.height - 104)
+        searchResultsTableView.alpha = 0.0
+        searchResultsTableViewController.tableView = searchResultsTableView
         
         // 결과 테이블뷰를 뷰에 추가
-        view.addSubview(resultsTableView)
+        view.addSubview(searchResultsTableView)
     }
     
     func setNavigationBar() {
@@ -307,7 +302,9 @@ extension MovieHomeView: UICollectionViewDataSource, UICollectionViewDelegate {
             }
         }
         
-        print(movie!.title)
+        let detailView = MovieDetailView()
+        detailView.movieInfo = movie
+        navigationController?.pushViewController(detailView, animated: true)
     }
 }
 
@@ -316,18 +313,21 @@ extension MovieHomeView: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.count > 0 {
             viewModel.searchText = searchText
+        } else {
+            viewModel.searchedMovies = []
         }
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         UIView.animate(withDuration: 0.3) {
-            self.resultsTableViewController.tableView.alpha = 1.0
+            self.searchResultsTableViewController.tableView.alpha = 1.0
         }
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        self.viewModel.searchedMovies = []
         UIView.animate(withDuration: 0.3) {
-            self.resultsTableViewController.tableView.alpha = 0.0
+            self.searchResultsTableViewController.tableView.alpha = 0.0
         }
     }
 }
@@ -341,11 +341,18 @@ extension MovieHomeView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
+        guard let cell = UITableViewCell(style: .default, reuseIdentifier: "cell") as? MovieSearchListCell else {
+            return UITableViewCell()
+        }
+        
         if viewModel.searchedMovies.count > 0 {
             let movie = viewModel.searchedMovies[indexPath.row]
-            cell.textLabel?.text = movie.title
+            cell.configureUI(movie: movie)
         }
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 160
     }
 }
