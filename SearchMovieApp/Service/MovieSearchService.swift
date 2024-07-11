@@ -90,7 +90,7 @@ class MovieSearchService {
                 default:
                     break
                 }
-                print(String(decoding: data, as: UTF8.self))
+                
                 return try JSONDecoder().decode(MovieDetail.self, from: data)
             }
             .share()

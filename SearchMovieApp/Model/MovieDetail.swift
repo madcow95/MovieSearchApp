@@ -9,12 +9,11 @@ import Foundation
 
 struct MovieDetail: Codable {
     let adult: Bool
-    let backdropPath: String
     let budget: Int
     let genres: [Genre]
     let homepage: String
     let id: Int
-    let imdbID: String
+    let imdbID: String?
     let originCountry: [String]
     let originalLanguage, originalTitle, overview: String
     let popularity: Double
@@ -30,7 +29,6 @@ struct MovieDetail: Codable {
 
     enum CodingKeys: String, CodingKey {
         case adult
-        case backdropPath = "backdrop_path"
         case budget, genres, homepage, id
         case imdbID = "imdb_id"
         case originCountry = "origin_country"

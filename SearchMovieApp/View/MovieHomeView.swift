@@ -80,7 +80,7 @@ class MovieHomeView: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] movies in
                 guard let self = self else { return }
-                self.searchResultsTableViewController.tableView.reloadData()
+                self.searchResultsTableView.reloadData()
             }
             .store(in: &cancellables)
         
@@ -121,15 +121,7 @@ class MovieHomeView: UIViewController {
         setPopularMovieScrollView()
         setFamousMovieScrollView()
         setUpComingMovieScrollView()
-        
-        searchResultsTableView.delegate = self
-        searchResultsTableView.dataSource = self
-        searchResultsTableView.frame = CGRect(x: 0, y: 104, width: view.frame.width, height: view.frame.height - 104)
-        searchResultsTableView.alpha = 0.0
-        searchResultsTableViewController.tableView = searchResultsTableView
-        
-        // 결과 테이블뷰를 뷰에 추가
-        view.addSubview(searchResultsTableView)
+        setSearchResultTable()
     }
     
     func setNavigationBar() {
@@ -241,8 +233,22 @@ class MovieHomeView: UIViewController {
         
         prevBottomAnchor = divider.bottomAnchor
     }
+    
+    func setSearchResultTable() {
+        searchResultsTableView.delegate = self
+        searchResultsTableView.dataSource = self
+        // MARK: ERROR - 기기별로 table의 위치가 조금씩 다름
+        searchResultsTableView.frame = CGRect(x: 0, y: 104, width: view.frame.width, height: view.frame.height - 104)
+        searchResultsTableView.alpha = 0.0
+        searchResultsTableViewController.tableView = searchResultsTableView
+        searchResultsTableView.register(MovieSearchListCell.self, forCellReuseIdentifier: "MovieSearchListCell")
+        
+        // 결과 테이블뷰를 뷰에 추가
+        view.addSubview(searchResultsTableView)
+    }
 }
 
+// 주간 인기, 평점 높은, 개봉 예정 영화 목록
 extension MovieHomeView: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == self.popularMovieCollection {
@@ -308,6 +314,7 @@ extension MovieHomeView: UICollectionViewDataSource, UICollectionViewDelegate {
     }
 }
 
+// 영화 검색
 extension MovieHomeView: UISearchBarDelegate {
     // MARK: TODO - 키보드에서 입력할 때마다 debounce로 api호출로 수정
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -332,16 +339,15 @@ extension MovieHomeView: UISearchBarDelegate {
     }
 }
 
+// 검색 결과 목록
 extension MovieHomeView: UITableViewDelegate, UITableViewDataSource {
     
-    // 테이블뷰 데이터 소스 메서드
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // 결과 데이터의 개수를 반환
         return viewModel.searchedMovies.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = UITableViewCell(style: .default, reuseIdentifier: "cell") as? MovieSearchListCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MovieSearchListCell", for: indexPath) as? MovieSearchListCell else {
             return UITableViewCell()
         }
         
@@ -353,6 +359,13 @@ extension MovieHomeView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 160
+        return 180
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let detailView = MovieDetailView()
+        let selectedMovie = viewModel.searchedMovies[indexPath.row]
+        detailView.movieInfo = selectedMovie
+        self.navigationController?.pushViewController(detailView, animated: true)
     }
 }
