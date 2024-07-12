@@ -1,8 +1,8 @@
 //
-//  CustomDivider.swift
+//  Extension+UIView.swift
 //  SearchMovieApp
 //
-//  Created by MadCow on 2024/7/3.
+//  Created by MadCow on 2024/7/12.
 //
 
 import UIKit

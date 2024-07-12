@@ -19,8 +19,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         self.window = UIWindow(windowScene: windowScene)
-        let navigation = UINavigationController(rootViewController: MovieHomeView())
-        self.window?.rootViewController = navigation
+        let homeView = UINavigationController(rootViewController: MovieHomeView())
+        homeView.tabBarItem = UITabBarItem(title: "홈", image: UIImage(systemName: "house.fill"), selectedImage: nil)
+        
+        let bookmarkView = UINavigationController(rootViewController: MovieBookMarkViewController())
+        bookmarkView.tabBarItem = UITabBarItem(title: "북마크", image: UIImage(systemName: "bookmark.fill"), selectedImage: nil)
+    
+        let tabbarController = UITabBarController()
+        tabbarController.viewControllers = [homeView, bookmarkView]
+        self.window?.rootViewController = tabbarController
         self.window?.makeKeyAndVisible()
     }
 

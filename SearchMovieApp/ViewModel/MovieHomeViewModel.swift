@@ -20,7 +20,7 @@ class MovieHomeViewModel {
     
     init() {
         $searchText
-            .debounce(for: 0.5, scheduler: RunLoop.current)
+            .debounce(for: 0.5, scheduler: RunLoop.main)
             .removeDuplicates()
             .share()
             .eraseToAnyPublisher()
@@ -32,6 +32,7 @@ class MovieHomeViewModel {
     }
     
     // 이미지 캐싱, 프리 패칭?, Alamofire 뜯어봐
+    // Coordinator Pattern
     func fetchMovies(searchType: SearchType, page: Int) {
         service.fetchMovie(searchType: searchType, page: page)
             .receive(on: DispatchQueue.global())

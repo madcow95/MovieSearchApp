@@ -71,7 +71,7 @@ class MovieSearchListCell: UITableViewCell {
             print("error in MovieSearchListCell - configureUI() > \(error.localizedDescription)")
         }
         self.movieTitle.text = "\(movie.title) (\(movie.releaseDate.components(separatedBy: "-")[0]))"
-        self.rateLabel.text = "\(String(format: "%.2f", movie.voteAverage)) (\(movie.voteCount))"
+        self.rateLabel.text = "\((movie.voteAverage / 2).getTwoDecimal) (\(movie.voteCount))"
         self.tagLabel.text = movie.overview
         
         [posterImage, movieTitle, rateLabel, tagLabel].forEach{ self.contentView.addSubview($0) }

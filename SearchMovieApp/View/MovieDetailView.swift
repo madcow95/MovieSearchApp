@@ -50,6 +50,24 @@ class MovieDetailView: UIViewController {
         
         return label
     }()
+    private lazy var averageImageStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .horizontal
+        stack.distribution = .equalSpacing
+        for _ in 0...4 {
+            let image = UIImage(systemName: "star")
+            let imageView = UIImageView(image: image)
+            imageView.tintColor = .systemYellow
+            
+            stack.addArrangedSubview(imageView)
+        }
+        
+        return stack
+    }()
+    private lazy var trailerButton = LabelButton(label: "트레일러 재생",
+                                                 buttonImage: UIImage(systemName: "play.fill"),
+                                                 buttonColor: .white)
     private lazy var movieReleaseLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -148,7 +166,8 @@ class MovieDetailView: UIViewController {
     }
     
     func setMovieDetailView() {
-        [posterImage, titleStackView, movieGenres, movieSummary].forEach{ self.view.addSubview($0) }
+        [posterImage, titleStackView, averageImageStackView,
+         trailerButton, movieGenres, movieSummary].forEach{ self.view.addSubview($0) }
         
         NSLayoutConstraint.activate([
             posterImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
@@ -158,7 +177,13 @@ class MovieDetailView: UIViewController {
             titleStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
             titleStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
             
-            movieGenres.topAnchor.constraint(equalTo: titleStackView.bottomAnchor, constant: 10),
+            averageImageStackView.topAnchor.constraint(equalTo: titleStackView.bottomAnchor, constant: 8),
+            averageImageStackView.leadingAnchor.constraint(equalTo: titleStackView.leadingAnchor),
+            
+            trailerButton.centerYAnchor.constraint(equalTo: averageImageStackView.centerYAnchor),
+            trailerButton.leadingAnchor.constraint(equalTo: averageImageStackView.trailingAnchor, constant: 8),
+            
+            movieGenres.topAnchor.constraint(equalTo: averageImageStackView.bottomAnchor, constant: 10),
             movieGenres.leadingAnchor.constraint(equalTo: titleStackView.leadingAnchor),
             movieGenres.trailingAnchor.constraint(equalTo: titleStackView.trailingAnchor),
             
@@ -178,11 +203,36 @@ class MovieDetailView: UIViewController {
         } catch {
             print(error)
         }
-        
+        print(detail.id)
         movieTitle.text = "\(detail.title)"
         movieReleaseLabel.text = "(\(detail.releaseDate.components(separatedBy: "-")[0]))"
         movieGenres.text = "\(detail.genres.map{ $0.name }.joined(separator: ", ")) (\(detail.runtime.minuteToHour))"
         movieSummary.text = detail.overview
+        let starPoint: Double = detail.voteAverage / 2
+        for i in 0...Int(starPoint) {
+            guard let starImage = averageImageStackView.subviews[i] as? UIImageView else {
+                continue
+            }
+            if i < Int(starPoint) {
+                starImage.image = UIImage(systemName: "star.fill")
+            } else {
+                if starPoint.getOnlyDecimalPoint > 0.5 {
+                    starImage.image = UIImage(systemName: "star.leadinghalf.filled")
+                }
+            }
+        }
+        let averageLabel = UILabel()
+        averageLabel.text = " (\(starPoint.getTwoDecimal))"
+        averageLabel.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        averageLabel.textColor = .lightGray
+        averageImageStackView.addArrangedSubview(averageLabel)
+        trailerButton.addAction(UIAction { /*[weak self]*/ _ in
+            // guard let self = self else { return }
+            // MARK: TODO - trailer 재생 화면 띄우기(modal(webVie) or popup(avkit))
+        }, for: .touchUpInside)
+        trailerButton.titleLabel?.textColor = .lightGray
+        trailerButton.tintColor = .white
+        trailerButton.semanticContentAttribute = .forceLeftToRight
     }
     
     // CoreData or SwiftData로 영화정보 저장

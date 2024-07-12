@@ -1,8 +1,8 @@
 //
-//  CustomButton.swift
+//  Extension+UIButton.swift
 //  SearchMovieApp
 //
-//  Created by MadCow on 2024/7/2.
+//  Created by MadCow on 2024/7/12.
 //
 
 import UIKit
@@ -31,3 +31,4 @@ class LabelButton: UIButton {
         self.semanticContentAttribute = .forceRightToLeft // title과 image의 위치 변경
     }
 }
+

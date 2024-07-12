@@ -1,8 +1,8 @@
 //
-//  Util.swift
+//  Extension+UIViewController.swift
 //  SearchMovieApp
 //
-//  Created by MadCow on 2024/7/5.
+//  Created by MadCow on 2024/7/12.
 //
 
 import UIKit
@@ -14,15 +14,5 @@ extension UIViewController {
         alertController.addAction(okAction)
         
         present(alertController, animated: true, completion: nil)
-    }
-}
-
-extension Int {
-    var minuteToHour: String {
-        get {
-            let hours = self / 60
-            let minutes = self % 60
-            return "\(hours)h \(minutes)m"
-        }
     }
 }

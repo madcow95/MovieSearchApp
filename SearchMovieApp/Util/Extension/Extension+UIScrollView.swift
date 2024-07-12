@@ -1,14 +1,13 @@
 //
-//  CustomScrollView.swift
+//  UI+Extension.swift
 //  SearchMovieApp
 //
-//  Created by MadCow on 2024/7/2.
+//  Created by MadCow on 2024/7/12.
 //
 
 import UIKit
 
 class CustomHorizontalScroll: UICollectionView {
-    
     private let popularMovieCollectionViewFlowLayout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal

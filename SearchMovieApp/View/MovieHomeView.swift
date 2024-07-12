@@ -126,7 +126,7 @@ class MovieHomeView: UIViewController {
     
     func setNavigationBar() {
         // MARK: TODO - button item 선택 -> 검색창 생성 -> 영화 검색 목록
-        self.title = "Movie Search"
+//        self.title = "Movie Search"
         
         navigationItem.hidesSearchBarWhenScrolling = false
         searchController.searchBar.delegate = self
