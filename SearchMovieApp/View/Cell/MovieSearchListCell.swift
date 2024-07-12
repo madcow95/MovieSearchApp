@@ -81,7 +81,7 @@ class MovieSearchListCell: UITableViewCell {
             self.posterImage.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 8),
             self.posterImage.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
             
-            self.movieTitle.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 25),
+            self.movieTitle.topAnchor.constraint(equalTo: self.posterImage.topAnchor),
             self.movieTitle.leadingAnchor.constraint(equalTo: self.posterImage.trailingAnchor, constant: 15),
             self.movieTitle.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
             
@@ -90,7 +90,8 @@ class MovieSearchListCell: UITableViewCell {
             
             self.tagLabel.topAnchor.constraint(equalTo: self.rateLabel.bottomAnchor, constant: 8),
             self.tagLabel.leadingAnchor.constraint(equalTo: self.movieTitle.leadingAnchor),
-            self.tagLabel.trailingAnchor.constraint(equalTo: self.movieTitle.trailingAnchor)
+            self.tagLabel.trailingAnchor.constraint(equalTo: self.movieTitle.trailingAnchor),
+            self.tagLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)
         ])
     }
     

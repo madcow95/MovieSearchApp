@@ -12,29 +12,20 @@ class MovieHomeViewCell: UICollectionViewCell {
     
     let viewModel = MovieHomeViewModel()
     private var cancellable = Set<AnyCancellable>()
-    private var hStack: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .vertical
-        stack.spacing = 15
-        stack.distribution = .equalSpacing
-        stack.alignment = .center
-        
-        return stack
-    }()
+    
     private var posterView: UIImageView = {
         let img = UIImageView()
         img.translatesAutoresizingMaskIntoConstraints = false
         img.widthAnchor.constraint(equalToConstant: 150).isActive = true
         img.heightAnchor.constraint(equalToConstant: 200).isActive = true
-        img.backgroundColor = .lightGray
-        img.contentMode = .scaleAspectFill
+//        img.backgroundColor = .lightGray
+        img.contentMode = .scaleAspectFit
         
         return img
     }()
     private var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.widthAnchor.constraint(equalToConstant: 150).isActive = true
         label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         label.textColor = .white
         label.numberOfLines = 2
@@ -42,13 +33,37 @@ class MovieHomeViewCell: UICollectionViewCell {
         
         return label
     }()
+    private lazy var vStack: UIStackView = {
+        let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .vertical
+        stack.distribution = .fill
+        stack.alignment = .center
+        stack.addArrangedSubview(posterView)
+        stack.addArrangedSubview(titleLabel)
+        
+        return stack
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setupView()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        setupView()
+    }
+    
+    func setupView() {
+        contentView.addSubview(vStack)
+        
+        NSLayoutConstraint.activate([
+            vStack.topAnchor.constraint(equalTo: contentView.topAnchor),
+            vStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            vStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            vStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        ])
     }
     
     func configureCell(movie: MovieInfo) {
@@ -61,18 +76,6 @@ class MovieHomeViewCell: UICollectionViewCell {
         } catch {
             print(error)
         }
-        
-        [self.posterView, self.titleLabel].forEach{ self.addSubview($0) }
-        
-        NSLayoutConstraint.activate([
-            self.posterView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
-            self.posterView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
-            self.posterView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
-            
-            self.titleLabel.topAnchor.constraint(equalTo: self.posterView.bottomAnchor, constant: 10),
-            self.titleLabel.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
-            self.titleLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)
-        ])
     }
     
     override func prepareForReuse() {

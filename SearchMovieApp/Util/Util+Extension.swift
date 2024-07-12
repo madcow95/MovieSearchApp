@@ -7,10 +7,6 @@
 
 import UIKit
 
-class CustomTapGesture: UITapGestureRecognizer {
-    var movie: MovieInfo?
-}
-
 extension UIViewController {
     func showAlert(msg: String) {
         let alertController = UIAlertController(title: "오류!", message: msg, preferredStyle: .alert)
@@ -18,5 +14,15 @@ extension UIViewController {
         alertController.addAction(okAction)
         
         present(alertController, animated: true, completion: nil)
+    }
+}
+
+extension Int {
+    var minuteToHour: String {
+        get {
+            let hours = self / 60
+            let minutes = self % 60
+            return "\(hours)h \(minutes)m"
+        }
     }
 }

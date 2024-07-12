@@ -18,12 +18,13 @@ class MovieDetailViewModel {
     func fetchMovieDetail(id: Int) {
         do {
             try service.getMovieDetailInfo(id: id)
+                .receive(on: DispatchQueue.global())
                 .sink { completion in
                     switch completion {
                     case .finished:
                         break
                     case .failure(let error):
-                        print("error in MovieDetailViewModel - fetchMovieDetail() > \(error.localizedDescription)")
+                        print("error in MovieDetailViewModel - fetchMovieDetail() > \(error.localizedDescription) \(#line) \(#function)")
                     }
                 } receiveValue: { [weak self] movieDetail in
                     guard let self = self else { return }

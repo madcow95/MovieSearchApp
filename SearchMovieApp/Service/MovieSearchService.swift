@@ -39,6 +39,7 @@ class MovieSearchService {
         ]
         
         return URLSession.shared.dataTaskPublisher(for: request)
+            .receive(on: DispatchQueue.global())
             .tryMap{ (data, response) in
                 guard let responseStatus = response as? HTTPURLResponse else {
                     throw MovieSearchError.urlError

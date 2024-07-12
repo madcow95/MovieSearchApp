@@ -33,7 +33,7 @@ class CustomHorizontalScroll: UICollectionView {
         self.heightAnchor.constraint(equalToConstant: 250).isActive = true
         self.isScrollEnabled = true
         self.showsHorizontalScrollIndicator = false
-        self.showsVerticalScrollIndicator = true
+        self.showsVerticalScrollIndicator = false
         self.contentInset = .zero
         self.backgroundColor = .clear
         self.clipsToBounds = true

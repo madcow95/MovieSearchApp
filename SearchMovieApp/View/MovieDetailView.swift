@@ -41,6 +41,52 @@ class MovieDetailView: UIViewController {
     private lazy var movieTitle: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 25, weight: .bold)
+        label.textColor = .white
+        label.numberOfLines = 0
+        label.textAlignment = .left
+        label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        label.setContentCompressionResistancePriority(.required, for: .horizontal)        
+        
+        return label
+    }()
+    private lazy var movieReleaseLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 25, weight: .semibold)
+        label.textColor = .lightGray
+        label.numberOfLines = 1
+        label.textAlignment = .left
+        label.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        label.setContentCompressionResistancePriority(.required, for: .horizontal)
+        
+        return label
+    }()
+    private lazy var titleStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .horizontal
+        stack.distribution = .fill
+        stack.alignment = .fill
+        stack.spacing = 8
+        stack.addArrangedSubview(movieTitle)
+        stack.addArrangedSubview(movieReleaseLabel)
+        
+        return stack
+    }()
+    private lazy var movieGenres: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        label.textColor = .lightGray
+        label.numberOfLines = 1
+        label.textAlignment = .left
+        
+        return label
+    }()
+    private lazy var movieSummary: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
         label.textColor = .white
         label.numberOfLines = 0
@@ -71,8 +117,16 @@ class MovieDetailView: UIViewController {
     }
     
     func configureUI() {
+        setNavigationUI()
         setScrollView()
         setMovieDetailView()
+    }
+    
+    func setNavigationUI() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "bookmark"),
+                                                            style: .plain,
+                                                            target: self,
+                                                            action: #selector(addToBookmark))
     }
     
     func setScrollView() {
@@ -94,15 +148,24 @@ class MovieDetailView: UIViewController {
     }
     
     func setMovieDetailView() {
-        [posterImage, movieTitle].forEach{ self.view.addSubview($0) }
+        [posterImage, titleStackView, movieGenres, movieSummary].forEach{ self.view.addSubview($0) }
         
         NSLayoutConstraint.activate([
             posterImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
-            posterImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            posterImage.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             
-            movieTitle.topAnchor.constraint(equalTo: posterImage.topAnchor),
-            movieTitle.leadingAnchor.constraint(equalTo: posterImage.trailingAnchor, constant: 10),
-            movieTitle.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
+            titleStackView.topAnchor.constraint(equalTo: posterImage.bottomAnchor, constant: 8),
+            titleStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
+            titleStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
+            
+            movieGenres.topAnchor.constraint(equalTo: titleStackView.bottomAnchor, constant: 10),
+            movieGenres.leadingAnchor.constraint(equalTo: titleStackView.leadingAnchor),
+            movieGenres.trailingAnchor.constraint(equalTo: titleStackView.trailingAnchor),
+            
+            movieSummary.topAnchor.constraint(equalTo: movieGenres.bottomAnchor, constant: 8),
+            movieSummary.leadingAnchor.constraint(equalTo: movieTitle.leadingAnchor),
+            movieSummary.trailingAnchor.constraint(equalTo: titleStackView.trailingAnchor),
+            movieSummary.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
     
@@ -116,6 +179,14 @@ class MovieDetailView: UIViewController {
             print(error)
         }
         
-        movieTitle.text = "\(detail.title) (\(detail.releaseDate.components(separatedBy: "-")[0]))"
+        movieTitle.text = "\(detail.title)"
+        movieReleaseLabel.text = "(\(detail.releaseDate.components(separatedBy: "-")[0]))"
+        movieGenres.text = "\(detail.genres.map{ $0.name }.joined(separator: ", ")) (\(detail.runtime.minuteToHour))"
+        movieSummary.text = detail.overview
+    }
+    
+    // CoreData or SwiftData로 영화정보 저장
+    @objc func addToBookmark() {
+        print("add to bookmark!")
     }
 }
