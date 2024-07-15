@@ -203,7 +203,7 @@ class MovieDetailView: UIViewController {
         } catch {
             print(error)
         }
-        print(detail.id)
+        
         movieTitle.text = "\(detail.title)"
         movieReleaseLabel.text = "(\(detail.releaseDate.components(separatedBy: "-")[0]))"
         movieGenres.text = "\(detail.genres.map{ $0.name }.joined(separator: ", ")) (\(detail.runtime.minuteToHour))"

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CD26969A2C456AC1009651BF /* MovieData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CD2696982C456AC1009651BF /* MovieData.xcdatamodeld */; };
 		CD72DD502C37C8B600B7C4DD /* MovieDetailListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD72DD4F2C37C8B600B7C4DD /* MovieDetailListViewController.swift */; };
 		CDB9D1122C4126180065B383 /* Extension+UIScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB9D1112C4126180065B383 /* Extension+UIScrollView.swift */; };
 		CDB9D1142C4126D70065B383 /* Extension+UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB9D1132C4126D70065B383 /* Extension+UIButton.swift */; };
@@ -32,6 +33,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CD2696992C456AC1009651BF /* MovieData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MovieData.xcdatamodel; sourceTree = "<group>"; };
 		CD72DD4F2C37C8B600B7C4DD /* MovieDetailListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailListViewController.swift; sourceTree = "<group>"; };
 		CDB9D1112C4126180065B383 /* Extension+UIScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIScrollView.swift"; sourceTree = "<group>"; };
 		CDB9D1132C4126D70065B383 /* Extension+UIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIButton.swift"; sourceTree = "<group>"; };
@@ -70,6 +72,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CD2696942C456994009651BF /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				CD2696982C456AC1009651BF /* MovieData.xcdatamodeld */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
 		CDB9D1102C41260C0065B383 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
@@ -111,6 +121,7 @@
 		CDF1EF512C34391600DDE77E /* SearchMovieApp */ = {
 			isa = PBXGroup;
 			children = (
+				CD2696942C456994009651BF /* Data */,
 				CDF1EF6A2C3439BE00DDE77E /* App */,
 				CDF1EF6D2C343A3100DDE77E /* Util */,
 				CDF1EF692C3439A500DDE77E /* Service */,
@@ -268,6 +279,7 @@
 				CDB9D11E2C41866A0065B383 /* MovieDetailListViewCell.swift in Sources */,
 				CDB9D1122C4126180065B383 /* Extension+UIScrollView.swift in Sources */,
 				CDD7BC942C3F691300C1F8D5 /* MovieSearchListCell.swift in Sources */,
+				CD26969A2C456AC1009651BF /* MovieData.xcdatamodeld in Sources */,
 				CDB9D11A2C4127910065B383 /* Extension+Number.swift in Sources */,
 				CDF1EF532C34391600DDE77E /* AppDelegate.swift in Sources */,
 				CDB9D11C2C4185230065B383 /* MovieBookMarkViewController.swift in Sources */,
@@ -482,6 +494,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		CD2696982C456AC1009651BF /* MovieData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				CD2696992C456AC1009651BF /* MovieData.xcdatamodel */,
+			);
+			currentVersion = CD2696992C456AC1009651BF /* MovieData.xcdatamodel */;
+			name = MovieData.xcdatamodeld;
+			path = /Users/madcow/Desktop/SearchMovieApp/SearchMovieApp/Data/MovieData.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = CDF1EF472C34391600DDE77E /* Project object */;
 }
