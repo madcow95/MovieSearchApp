@@ -141,10 +141,18 @@ class MovieDetailView: UIViewController {
     }
     
     func setNavigationUI() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "bookmark"),
-                                                            style: .plain,
-                                                            target: self,
-                                                            action: #selector(addToBookmark))
+        if let selectedMovie = self.movieInfo {
+            detailViewModel.loadBookmarkBy(id: selectedMovie.id) { [weak self] info in
+                guard let self = self else { return }
+                print(info)
+                DispatchQueue.main.async {
+                    self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: info == nil ? "bookmark" : "bookmark.fill"),
+                                                                        style: .plain,
+                                                                        target: self,
+                                                                        action: #selector(self.addToBookmark))
+                }
+            }
+        }
     }
     
     func setScrollView() {
@@ -237,6 +245,12 @@ class MovieDetailView: UIViewController {
     
     // CoreData or SwiftData로 영화정보 저장
     @objc func addToBookmark() {
-        print("add to bookmark!")
+        guard let selectedMovie = movieInfo else { return }
+        detailViewModel.saveBookmark(movie: selectedMovie) { [weak self] result in
+            guard let self = self else { return }
+            DispatchQueue.main.async {            
+                self.navigationItem.rightBarButtonItem?.image = UIImage(systemName: result ? "bookmark.fill" : "bookmark")
+            }
+        }
     }
 }
