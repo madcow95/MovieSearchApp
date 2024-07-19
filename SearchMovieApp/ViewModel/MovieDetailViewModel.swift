@@ -11,9 +11,11 @@ import CoreData
 
 class MovieDetailViewModel {
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    @Published var movieDetail: MovieDetail?
-    private var cancellable = Set<AnyCancellable>()
     
+    @Published var movieDetail: MovieDetail?
+    @Published var bookmarkedMovie: MovieInfo?
+    
+    private var cancellable = Set<AnyCancellable>()
     let service = MovieSearchService()
     
     func fetchMovieDetail(id: Int) {
@@ -36,42 +38,36 @@ class MovieDetailViewModel {
             print(error)
         }
     }
-    /*
-    func saveBookmark(movie: MovieInfo, completion: @escaping ((Bool) -> Void)) {
-        loadBookmarkBy(id: movie.id) { [weak self] movieInfo in
-            guard let self = self else { return }
-            if movieInfo != nil {
-                completion(false)
-            } else {
-                if let entity = NSEntityDescription.entity(forEntityName: "BookmarkMovie", in: context) {
-                    let newBookmark = NSManagedObject(entity: entity, insertInto: context)
-                    newBookmark.setValue(movie.adult, forKey: "adult")
-                    newBookmark.setValue(movie.backdropPath, forKey: "backdropPath")
-                    newBookmark.setValue(movie.genreIDS.map{ String($0) }.joined(), forKey: "genreIDS")
-                    newBookmark.setValue(movie.id, forKey: "id")
-                    newBookmark.setValue(movie.originalLanguage, forKey: "originalLanguage")
-                    newBookmark.setValue(movie.originalTitle, forKey: "originalTitle")
-                    newBookmark.setValue(movie.overview, forKey: "overview")
-                    newBookmark.setValue(movie.popularity, forKey: "popularity")
-                    newBookmark.setValue(movie.posterPath, forKey: "posterPath")
-                    newBookmark.setValue(movie.releaseDate, forKey: "releaseDate")
-                    newBookmark.setValue(movie.title, forKey: "title")
-                    newBookmark.setValue(movie.video, forKey: "video")
-                    newBookmark.setValue(movie.voteAverage, forKey: "voteAverage")
-                    newBookmark.setValue(movie.voteCount, forKey: "voteCount")
-                }
-                
-                do {
-                    try context.save()
-                    completion(true)
-                } catch let error as NSError {
-                    print("Could not save. \(error), \(error.userInfo)")
-                }
-            }
+    
+    func saveBookmark(movie: MovieInfo) {
+        if let entity = NSEntityDescription.entity(forEntityName: "BookmarkMovie", in: context) {
+            let newBookmark = NSManagedObject(entity: entity, insertInto: context)
+            newBookmark.setValue(movie.adult, forKey: "adult")
+            newBookmark.setValue(movie.backdropPath, forKey: "backdropPath")
+            newBookmark.setValue(movie.genreIDS.map{ String($0) }.joined(), forKey: "genreIDS")
+            newBookmark.setValue(movie.id, forKey: "id")
+            newBookmark.setValue(movie.originalLanguage, forKey: "originalLanguage")
+            newBookmark.setValue(movie.originalTitle, forKey: "originalTitle")
+            newBookmark.setValue(movie.overview, forKey: "overview")
+            newBookmark.setValue(movie.popularity, forKey: "popularity")
+            newBookmark.setValue(movie.posterPath, forKey: "posterPath")
+            newBookmark.setValue(movie.releaseDate, forKey: "releaseDate")
+            newBookmark.setValue(movie.title, forKey: "title")
+            newBookmark.setValue(movie.video, forKey: "video")
+            newBookmark.setValue(movie.voteAverage, forKey: "voteAverage")
+            newBookmark.setValue(movie.voteCount, forKey: "voteCount")
+        }
+        
+        do {
+            try context.save()
+            // 저장 후 상세 화면의 bookmark 버튼 image 변경
+            loadBookmarkedMovieBy(id: movie.id)
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
         }
     }
     
-    func loadBookmarkBy(id: Int, completion: @escaping ((MovieInfo?) -> Void)) {
+    func loadBookmarkedMovieBy(id: Int) {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "BookmarkMovie")
         let predicate = NSPredicate(format: "id == %@", "\(id)")
         fetchRequest.predicate = predicate
@@ -98,9 +94,9 @@ class MovieDetailViewModel {
                 let movieInfo = MovieInfo(adult: adult,
                                  backdropPath: backdropPath,
                                  genreIDS: genreIDS.components(separatedBy: ",").map{ Int($0)! },
-                                 id: id, 
+                                 id: id,
                                  originalLanguage: originalLanguage,
-                                 originalTitle: originalTitle, 
+                                 originalTitle: originalTitle,
                                  overview: overview,
                                  popularity: popularity,
                                  posterPath: posterPath,
@@ -109,13 +105,11 @@ class MovieDetailViewModel {
                                  video: video,
                                  voteAverage: voteAverage,
                                  voteCount: voteCount)
-                completion(movieInfo)
-            } else {
-                completion(nil)
+                
+                self.bookmarkedMovie = movieInfo
             }
         } catch let error as NSError {
             print("데이터 가져오기 실패: \(error), \(error.userInfo)")
         }
     }
-    */
 }

@@ -12,12 +12,15 @@ import Combine
 class MovieBookMarkViewModel {
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     @Published var bookmarkMovies: [MovieInfo] = []
+    @Published var posterImage: UIImage?
+    
+    private let service = MovieSearchService()
+    private var cancellable = Set<AnyCancellable>()
     
     func loadAllBookmarkMovies() {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "BookmarkMovie")
         do {
             let movies = try context.fetch(fetchRequest) as! [NSManagedObject]
-            print(movies)
             if movies.count > 0 {
                 bookmarkMovies = movies.map{ movie in
                     let adult = movie.value(forKey: "adult") as! Bool
@@ -53,6 +56,19 @@ class MovieBookMarkViewModel {
             }
         } catch let error as NSError {
             print("데이터 가져오기 실패: \(error), \(error.userInfo)")
+        }
+    }
+    
+    func fetchPosterImage(posterURL: String) {
+        do {
+            try self.service.getPosterImage(posterURL: posterURL)
+                .sink { [weak self] poster in
+                    guard let self = self else { return }
+                    self.posterImage = poster
+                }
+                .store(in: &cancellable)
+        } catch {
+            print(error.localizedDescription)
         }
     }
 }
