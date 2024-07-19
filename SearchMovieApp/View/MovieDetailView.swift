@@ -131,7 +131,18 @@ class MovieDetailView: UIViewController {
             }
             .store(in: &cancellable)
         
+        detailViewModel.$bookmarkedMovie
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] result in
+                guard let self = self else { return }
+                if result != nil {
+                    self.navigationItem.rightBarButtonItem?.image = UIImage(systemName: "bookmark.fill")
+                }
+            }
+            .store(in: &cancellable)
+        
         detailViewModel.fetchMovieDetail(id: id)
+        detailViewModel.loadBookmarkedMovieBy(id: id)
     }
     
     func configureUI() {
@@ -146,17 +157,6 @@ class MovieDetailView: UIViewController {
                                                                 style: .plain,
                                                                 target: self,
                                                                 action: #selector(self.addToBookmark))
-//        if let selectedMovie = self.movieInfo {
-//            detailViewModel.loadBookmarkBy(id: selectedMovie.id) { [weak self] info in
-//                guard let self = self else { return }
-//                DispatchQueue.main.async {
-//                    self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: info == nil ? "bookmark" : "bookmark.fill"),
-//                                                                        style: .plain,
-//                                                                        target: self,
-//                                                                        action: #selector(self.addToBookmark))
-//                }
-//            }
-//        }
     }
     
     func setScrollView() {
@@ -250,11 +250,6 @@ class MovieDetailView: UIViewController {
     // CoreData or SwiftData로 영화정보 저장
     @objc func addToBookmark() {
         guard let selectedMovie = movieInfo else { return }
-//        detailViewModel.saveBookmark(movie: selectedMovie) { [weak self] result in
-//            guard let self = self else { return }
-//            DispatchQueue.main.async {            
-//                self.navigationItem.rightBarButtonItem?.image = UIImage(systemName: result ? "bookmark.fill" : "bookmark")
-//            }
-//        }
+        detailViewModel.saveBookmark(movie: selectedMovie)
     }
 }

@@ -17,7 +17,6 @@ class MovieBookMarkViewModel {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "BookmarkMovie")
         do {
             let movies = try context.fetch(fetchRequest) as! [NSManagedObject]
-            print(movies)
             if movies.count > 0 {
                 bookmarkMovies = movies.map{ movie in
                     let adult = movie.value(forKey: "adult") as! Bool
@@ -50,6 +49,7 @@ class MovieBookMarkViewModel {
                                      voteAverage: voteAverage,
                                      voteCount: voteCount)
                 }
+                print(bookmarkMovies)
             }
         } catch let error as NSError {
             print("데이터 가져오기 실패: \(error), \(error.userInfo)")
