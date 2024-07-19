@@ -141,18 +141,22 @@ class MovieDetailView: UIViewController {
     }
     
     func setNavigationUI() {
-        if let selectedMovie = self.movieInfo {
-            detailViewModel.loadBookmarkBy(id: selectedMovie.id) { [weak self] info in
-                guard let self = self else { return }
-                print(info)
-                DispatchQueue.main.async {
-                    self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: info == nil ? "bookmark" : "bookmark.fill"),
-                                                                        style: .plain,
-                                                                        target: self,
-                                                                        action: #selector(self.addToBookmark))
-                }
-            }
-        }
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "bookmark"),
+                                                                style: .plain,
+                                                                target: self,
+                                                                action: #selector(self.addToBookmark))
+//        if let selectedMovie = self.movieInfo {
+//            detailViewModel.loadBookmarkBy(id: selectedMovie.id) { [weak self] info in
+//                guard let self = self else { return }
+//                DispatchQueue.main.async {
+//                    self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: info == nil ? "bookmark" : "bookmark.fill"),
+//                                                                        style: .plain,
+//                                                                        target: self,
+//                                                                        action: #selector(self.addToBookmark))
+//                }
+//            }
+//        }
     }
     
     func setScrollView() {
@@ -246,11 +250,11 @@ class MovieDetailView: UIViewController {
     // CoreData or SwiftData로 영화정보 저장
     @objc func addToBookmark() {
         guard let selectedMovie = movieInfo else { return }
-        detailViewModel.saveBookmark(movie: selectedMovie) { [weak self] result in
-            guard let self = self else { return }
-            DispatchQueue.main.async {            
-                self.navigationItem.rightBarButtonItem?.image = UIImage(systemName: result ? "bookmark.fill" : "bookmark")
-            }
-        }
+//        detailViewModel.saveBookmark(movie: selectedMovie) { [weak self] result in
+//            guard let self = self else { return }
+//            DispatchQueue.main.async {            
+//                self.navigationItem.rightBarButtonItem?.image = UIImage(systemName: result ? "bookmark.fill" : "bookmark")
+//            }
+//        }
     }
 }

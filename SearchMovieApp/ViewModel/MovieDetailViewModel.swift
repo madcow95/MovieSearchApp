@@ -36,7 +36,7 @@ class MovieDetailViewModel {
             print(error)
         }
     }
-    
+    /*
     func saveBookmark(movie: MovieInfo, completion: @escaping ((Bool) -> Void)) {
         loadBookmarkBy(id: movie.id) { [weak self] movieInfo in
             guard let self = self else { return }
@@ -117,4 +117,5 @@ class MovieDetailViewModel {
             print("데이터 가져오기 실패: \(error), \(error.userInfo)")
         }
     }
+    */
 }
