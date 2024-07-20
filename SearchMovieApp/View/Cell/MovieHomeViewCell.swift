@@ -13,12 +13,19 @@ class MovieHomeViewCell: UICollectionViewCell {
     let viewModel = MovieHomeViewModel()
     private var cancellable = Set<AnyCancellable>()
     
+    private let activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .medium)
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        indicator.startAnimating()
+        indicator.isHidden = false
+        
+        return indicator
+    }()
     private var posterView: UIImageView = {
         let img = UIImageView()
         img.translatesAutoresizingMaskIntoConstraints = false
         img.widthAnchor.constraint(equalToConstant: 150).isActive = true
         img.heightAnchor.constraint(equalToConstant: 200).isActive = true
-//        img.backgroundColor = .lightGray
         img.contentMode = .scaleAspectFit
         
         return img
@@ -56,14 +63,21 @@ class MovieHomeViewCell: UICollectionViewCell {
     }
     
     func setupView() {
-        contentView.addSubview(vStack)
-        
+        contentView.addSubview(activityIndicator)
         NSLayoutConstraint.activate([
-            vStack.topAnchor.constraint(equalTo: contentView.topAnchor),
-            vStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            vStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            vStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            activityIndicator.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10),
+            activityIndicator.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 10),
+            activityIndicator.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10),
+            activityIndicator.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: 10)
         ])
+//        contentView.addSubview(vStack)
+//        
+//        NSLayoutConstraint.activate([
+//            vStack.topAnchor.constraint(equalTo: contentView.topAnchor),
+//            vStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+//            vStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+//            vStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+//        ])
     }
     
     func configureCell(movie: MovieInfo) {
@@ -71,7 +85,20 @@ class MovieHomeViewCell: UICollectionViewCell {
         do {
             try viewModel.service.getPosterImage(posterURL: movie.posterPath)
                 .receive(on: DispatchQueue.main)
-                .assign(to: \.image, on: self.posterView)
+                .sink(receiveValue: { [weak self] poster in
+                    guard let self = self else { return }
+                    self.activityIndicator.stopAnimating()
+                    self.activityIndicator.isHidden = true
+                    self.posterView.image = poster
+                    contentView.addSubview(vStack)
+            
+                    NSLayoutConstraint.activate([
+                        vStack.topAnchor.constraint(equalTo: contentView.topAnchor),
+                        vStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+                        vStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+                        vStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+                    ])
+                })
                 .store(in: &cancellable)
         } catch {
             print(error)

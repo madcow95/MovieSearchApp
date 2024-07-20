@@ -56,6 +56,7 @@ class MovieDetailViewModel {
             newBookmark.setValue(movie.video, forKey: "video")
             newBookmark.setValue(movie.voteAverage, forKey: "voteAverage")
             newBookmark.setValue(movie.voteCount, forKey: "voteCount")
+            newBookmark.setValue(Date(), forKey: "bookmarkedDate")
         }
         
         do {

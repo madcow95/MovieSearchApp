@@ -20,7 +20,13 @@ class MovieBookMarkViewModel {
     func loadAllBookmarkMovies() {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "BookmarkMovie")
         do {
-            let movies = try context.fetch(fetchRequest) as! [NSManagedObject]
+            var movies = try context.fetch(fetchRequest) as! [NSManagedObject]
+            movies.sort { first, second in
+                let firstDate = first.value(forKey: "bookmarkedDate") as! Date
+                let secondDate = second.value(forKey: "bookmarkedDate") as! Date
+                
+                return firstDate < secondDate
+            }
             if movies.count > 0 {
                 bookmarkMovies = movies.map{ movie in
                     let adult = movie.value(forKey: "adult") as! Bool
@@ -55,7 +61,25 @@ class MovieBookMarkViewModel {
                 }
             }
         } catch let error as NSError {
-            print("데이터 가져오기 실패: \(error), \(error.userInfo)")
+            print("데이터 가져오기 실패: \(error)")
+        }
+    }
+    
+    func deleteBookmark(movie: MovieInfo) {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "BookmarkMovie")
+        let predicate = NSPredicate(format: "id == %@", "\(movie.id)")
+        fetchRequest.predicate = predicate
+        
+        do {
+            let deleteTargetMovies = try context.fetch(fetchRequest) as! [NSManagedObject]
+            if deleteTargetMovies.count > 0, let targetMovie = deleteTargetMovies.first {
+                let target = try context.existingObject(with: targetMovie.objectID)
+                context.delete(target)
+                try context.save()
+                loadAllBookmarkMovies()
+            }
+        } catch {
+            print(error.localizedDescription)
         }
     }
     

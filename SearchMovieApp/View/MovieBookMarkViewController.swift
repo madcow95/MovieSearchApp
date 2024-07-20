@@ -77,4 +77,17 @@ extension MovieBookMarkViewController: UITableViewDelegate, UITableViewDataSourc
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 200
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedMovie = self.bookmarkViewModel.bookmarkMovies[indexPath.row]
+        let detailView = MovieDetailView()
+        detailView.movieInfo = selectedMovie
+        navigationController?.pushViewController(detailView, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            bookmarkViewModel.deleteBookmark(movie: bookmarkViewModel.bookmarkMovies[indexPath.row])
+        }
+    }
 }

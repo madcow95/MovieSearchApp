@@ -122,6 +122,11 @@ class MovieDetailView: UIViewController {
         configureUI()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        navigationController?.popViewController(animated: true)
+    }
+    
     func fetchMovie(id: Int) {
         detailViewModel.$movieDetail
             .receive(on: DispatchQueue.main)

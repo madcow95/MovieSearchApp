@@ -10,7 +10,6 @@ import Combine
 
 class MovieHomeView: UIViewController {
     
-    
     // UI Components
     private let scrollView = UIScrollView()
     private let contentView = UIView()
