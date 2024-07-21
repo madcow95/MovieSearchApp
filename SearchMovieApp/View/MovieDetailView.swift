@@ -12,6 +12,7 @@ class MovieDetailView: UIViewController {
     
     var movieInfo: MovieInfo?
     
+    private var isBookmarked: Bool = false
     private var cancellable = Set<AnyCancellable>()
     private let detailViewModel = MovieDetailViewModel()
     
@@ -141,7 +142,8 @@ class MovieDetailView: UIViewController {
             .sink { [weak self] result in
                 guard let self = self else { return }
                 if result != nil {
-                    self.navigationItem.rightBarButtonItem?.image = UIImage(systemName: "bookmark.fill")
+                    isBookmarked = true
+                    self.navigationItem.rightBarButtonItem?.image = UIImage(systemName: isBookmarked ? "bookmark.fill" : "bookmark")
                 }
             }
             .store(in: &cancellable)
@@ -254,6 +256,11 @@ class MovieDetailView: UIViewController {
     // CoreData or SwiftData로 영화정보 저장
     @objc func addToBookmark() {
         guard let selectedMovie = movieInfo else { return }
-        detailViewModel.saveBookmark(movie: selectedMovie)
+        isBookmarked.toggle()
+        if isBookmarked {
+            
+        } else {
+            detailViewModel.saveBookmark(movie: selectedMovie)
+        }
     }
 }

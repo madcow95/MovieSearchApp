@@ -68,6 +68,23 @@ class MovieDetailViewModel {
         }
     }
     
+    func deleteBookmark(movie: MovieInfo) {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "BookmarkMovie")
+        let predicate = NSPredicate(format: "id == %@", "\(movie.id)")
+        fetchRequest.predicate = predicate
+        
+        do {
+            let deleteTargetMovies = try context.fetch(fetchRequest) as! [NSManagedObject]
+            if deleteTargetMovies.count > 0, let targetMovie = deleteTargetMovies.first {
+                let target = try context.existingObject(with: targetMovie.objectID)
+                context.delete(target)
+                try context.save()
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
     func loadBookmarkedMovieBy(id: Int) {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "BookmarkMovie")
         let predicate = NSPredicate(format: "id == %@", "\(id)")

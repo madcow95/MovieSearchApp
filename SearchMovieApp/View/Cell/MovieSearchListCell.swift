@@ -29,6 +29,16 @@ class MovieSearchListCell: UITableViewCell {
         
         return label
     }()
+    private lazy var rateStar: UIImageView = {
+        let iv = UIImageView()
+        iv.translatesAutoresizingMaskIntoConstraints = false
+        iv.image = UIImage(systemName: "star.fill")
+        iv.tintColor = .systemYellow
+        iv.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        iv.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        return iv
+    }()
     private lazy var rateLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -74,7 +84,7 @@ class MovieSearchListCell: UITableViewCell {
         self.rateLabel.text = "\((movie.voteAverage / 2).getTwoDecimal) (\(movie.voteCount))"
         self.tagLabel.text = movie.overview
         
-        [posterImage, movieTitle, rateLabel, tagLabel].forEach{ self.contentView.addSubview($0) }
+        [posterImage, movieTitle, rateStar, rateLabel, tagLabel].forEach{ self.contentView.addSubview($0) }
         
         NSLayoutConstraint.activate([
             self.posterImage.topAnchor.constraint(equalTo: self.contentView.topAnchor),
@@ -85,8 +95,11 @@ class MovieSearchListCell: UITableViewCell {
             self.movieTitle.leadingAnchor.constraint(equalTo: self.posterImage.trailingAnchor, constant: 15),
             self.movieTitle.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
             
+            self.rateStar.topAnchor.constraint(equalTo: self.movieTitle.bottomAnchor, constant: 8),
+            self.rateStar.leadingAnchor.constraint(equalTo: self.movieTitle.leadingAnchor),
+            
             self.rateLabel.topAnchor.constraint(equalTo: self.movieTitle.bottomAnchor, constant: 8),
-            self.rateLabel.leadingAnchor.constraint(equalTo: self.movieTitle.leadingAnchor),
+            self.rateLabel.leadingAnchor.constraint(equalTo: self.rateStar.trailingAnchor, constant: 8),
             
             self.tagLabel.topAnchor.constraint(equalTo: self.rateLabel.bottomAnchor, constant: 8),
             self.tagLabel.leadingAnchor.constraint(equalTo: self.movieTitle.leadingAnchor),
