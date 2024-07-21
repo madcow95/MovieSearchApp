@@ -79,6 +79,7 @@ class MovieDetailViewModel {
                 let target = try context.existingObject(with: targetMovie.objectID)
                 context.delete(target)
                 try context.save()
+                self.bookmarkedMovie = nil
             }
         } catch {
             print(error.localizedDescription)

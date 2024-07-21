@@ -23,24 +23,17 @@ class MovieBookMarkViewController: UIViewController {
     private let bookmarkViewModel = MovieBookMarkViewModel()
     private var cancellable = Set<AnyCancellable>()
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setSubscriber()
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .black
-        
-        self.view.addSubview(bookmarkList)
-        
-        NSLayoutConstraint.activate([
-            bookmarkList.topAnchor.constraint(equalTo: self.view.topAnchor),
-            bookmarkList.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            bookmarkList.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            bookmarkList.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
-        ])
+        setSubscriber()
+        setConstraint()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.bookmarkViewModel.loadAllBookmarkMovies()
     }
     
     func setSubscriber() {
@@ -51,8 +44,17 @@ class MovieBookMarkViewController: UIViewController {
                 self.bookmarkList.reloadData()
             })
             .store(in: &cancellable)
+    }
+    
+    func setConstraint() {
+        self.view.addSubview(bookmarkList)
         
-        bookmarkViewModel.loadAllBookmarkMovies()
+        NSLayoutConstraint.activate([
+            bookmarkList.topAnchor.constraint(equalTo: self.view.topAnchor),
+            bookmarkList.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            bookmarkList.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            bookmarkList.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+        ])
     }
 }
 

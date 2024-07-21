@@ -59,6 +59,8 @@ class MovieBookMarkViewModel {
                                      voteAverage: voteAverage,
                                      voteCount: voteCount)
                 }
+            } else {
+                bookmarkMovies = []
             }
         } catch let error as NSError {
             print("데이터 가져오기 실패: \(error)")
