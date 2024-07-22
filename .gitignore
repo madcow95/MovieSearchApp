@@ -1,6 +1,16 @@
 # Created by https://www.toptal.com/developers/gitignore/api/swift
 # Edit at https://www.toptal.com/developers/gitignore?templates=swift
 
+*.DS_Store
+SearchMovieApp/*.DS_Store
+SearchMovieApp/*.xcconfig
+SearchMovieApp/Assets.xcassets
+SearchMovieApp/Assets.xcassets/*
+SearchMovieApp/Base.lproj
+SearchMovieApp/Base.lproj/*
+SearchMovieApp/**/*.DS_Store
+SearchMovieApp.xcodeproj/project.xcworkspace*
+
 ### Swift ###
 # Xcode
 #
