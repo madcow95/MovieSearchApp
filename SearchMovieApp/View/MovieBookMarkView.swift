@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-class MovieBookMarkViewController: UIViewController {
+class MovieBookMarkView: UIViewController {
     
     private lazy var bookmarkList: UITableView = {
         let table = UITableView()
@@ -58,7 +58,7 @@ class MovieBookMarkViewController: UIViewController {
     }
 }
 
-extension MovieBookMarkViewController: UITableViewDelegate, UITableViewDataSource {
+extension MovieBookMarkView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return bookmarkViewModel.bookmarkMovies.count
     }

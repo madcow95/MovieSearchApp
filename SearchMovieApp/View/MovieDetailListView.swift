@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MovieDetailListViewController: UIViewController {
+class MovieDetailListView: UIViewController {
     
     var loadedMovies: [MovieInfo] = []
     private lazy var collectionView: UICollectionView = {
@@ -47,7 +47,7 @@ class MovieDetailListViewController: UIViewController {
     }
 }
 
-extension MovieDetailListViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension MovieDetailListView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return loadedMovies.count
     }
