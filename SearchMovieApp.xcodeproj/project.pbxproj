@@ -10,13 +10,13 @@
 		CD26969A2C456AC1009651BF /* MovieData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CD2696982C456AC1009651BF /* MovieData.xcdatamodeld */; };
 		CD26969C2C457D88009651BF /* MovieBookMarkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD26969B2C457D88009651BF /* MovieBookMarkViewModel.swift */; };
 		CD26969E2C4580D7009651BF /* MovieBookmarkTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD26969D2C4580D7009651BF /* MovieBookmarkTableCell.swift */; };
-		CD72DD502C37C8B600B7C4DD /* MovieDetailListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD72DD4F2C37C8B600B7C4DD /* MovieDetailListViewController.swift */; };
+		CD72DD502C37C8B600B7C4DD /* MovieDetailListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD72DD4F2C37C8B600B7C4DD /* MovieDetailListView.swift */; };
 		CDB9D1122C4126180065B383 /* Extension+UIScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB9D1112C4126180065B383 /* Extension+UIScrollView.swift */; };
 		CDB9D1142C4126D70065B383 /* Extension+UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB9D1132C4126D70065B383 /* Extension+UIButton.swift */; };
 		CDB9D1162C4126F40065B383 /* Extension+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB9D1152C4126F40065B383 /* Extension+UIView.swift */; };
 		CDB9D1182C41276D0065B383 /* Extension+UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB9D1172C41276D0065B383 /* Extension+UIViewController.swift */; };
 		CDB9D11A2C4127910065B383 /* Extension+Number.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB9D1192C4127910065B383 /* Extension+Number.swift */; };
-		CDB9D11C2C4185230065B383 /* MovieBookMarkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB9D11B2C4185230065B383 /* MovieBookMarkViewController.swift */; };
+		CDB9D11C2C4185230065B383 /* MovieBookMarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB9D11B2C4185230065B383 /* MovieBookMarkView.swift */; };
 		CDB9D11E2C41866A0065B383 /* MovieDetailListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB9D11D2C41866A0065B383 /* MovieDetailListViewCell.swift */; };
 		CDD7BC922C3F603900C1F8D5 /* MovieDetailListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD7BC912C3F603900C1F8D5 /* MovieDetailListViewModel.swift */; };
 		CDD7BC942C3F691300C1F8D5 /* MovieSearchListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD7BC932C3F691300C1F8D5 /* MovieSearchListCell.swift */; };
@@ -38,13 +38,13 @@
 		CD2696992C456AC1009651BF /* MovieData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MovieData.xcdatamodel; sourceTree = "<group>"; };
 		CD26969B2C457D88009651BF /* MovieBookMarkViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieBookMarkViewModel.swift; sourceTree = "<group>"; };
 		CD26969D2C4580D7009651BF /* MovieBookmarkTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieBookmarkTableCell.swift; sourceTree = "<group>"; };
-		CD72DD4F2C37C8B600B7C4DD /* MovieDetailListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailListViewController.swift; sourceTree = "<group>"; };
+		CD72DD4F2C37C8B600B7C4DD /* MovieDetailListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailListView.swift; sourceTree = "<group>"; };
 		CDB9D1112C4126180065B383 /* Extension+UIScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIScrollView.swift"; sourceTree = "<group>"; };
 		CDB9D1132C4126D70065B383 /* Extension+UIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIButton.swift"; sourceTree = "<group>"; };
 		CDB9D1152C4126F40065B383 /* Extension+UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIView.swift"; sourceTree = "<group>"; };
 		CDB9D1172C41276D0065B383 /* Extension+UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIViewController.swift"; sourceTree = "<group>"; };
 		CDB9D1192C4127910065B383 /* Extension+Number.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Number.swift"; sourceTree = "<group>"; };
-		CDB9D11B2C4185230065B383 /* MovieBookMarkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieBookMarkViewController.swift; sourceTree = "<group>"; };
+		CDB9D11B2C4185230065B383 /* MovieBookMarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieBookMarkView.swift; sourceTree = "<group>"; };
 		CDB9D11D2C41866A0065B383 /* MovieDetailListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailListViewCell.swift; sourceTree = "<group>"; };
 		CDD7BC912C3F603900C1F8D5 /* MovieDetailListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailListViewModel.swift; sourceTree = "<group>"; };
 		CDD7BC932C3F691300C1F8D5 /* MovieSearchListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSearchListCell.swift; sourceTree = "<group>"; };
@@ -144,10 +144,10 @@
 			isa = PBXGroup;
 			children = (
 				CDED50B72C3C10B7002FF01F /* Cell */,
-				CD72DD4F2C37C8B600B7C4DD /* MovieDetailListViewController.swift */,
+				CD72DD4F2C37C8B600B7C4DD /* MovieDetailListView.swift */,
 				CDED50B52C3C0F2D002FF01F /* MovieHomeView.swift */,
 				CDED50BA2C3C3319002FF01F /* MovieDetailView.swift */,
-				CDB9D11B2C4185230065B383 /* MovieBookMarkViewController.swift */,
+				CDB9D11B2C4185230065B383 /* MovieBookMarkView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -277,7 +277,7 @@
 			files = (
 				CD26969C2C457D88009651BF /* MovieBookMarkViewModel.swift in Sources */,
 				CDD7BC922C3F603900C1F8D5 /* MovieDetailListViewModel.swift in Sources */,
-				CD72DD502C37C8B600B7C4DD /* MovieDetailListViewController.swift in Sources */,
+				CD72DD502C37C8B600B7C4DD /* MovieDetailListView.swift in Sources */,
 				CDB9D1182C41276D0065B383 /* Extension+UIViewController.swift in Sources */,
 				CDD7BC982C3F718000C1F8D5 /* MovieDetail.swift in Sources */,
 				CDF1EF7C2C3441A100DDE77E /* MovieHomeViewModel.swift in Sources */,
@@ -289,7 +289,7 @@
 				CD26969A2C456AC1009651BF /* MovieData.xcdatamodeld in Sources */,
 				CDB9D11A2C4127910065B383 /* Extension+Number.swift in Sources */,
 				CDF1EF532C34391600DDE77E /* AppDelegate.swift in Sources */,
-				CDB9D11C2C4185230065B383 /* MovieBookMarkViewController.swift in Sources */,
+				CDB9D11C2C4185230065B383 /* MovieBookMarkView.swift in Sources */,
 				CDED50BB2C3C3319002FF01F /* MovieDetailView.swift in Sources */,
 				CDF1EF7A2C34413B00DDE77E /* MovieModel.swift in Sources */,
 				CDF1EF782C34402000DDE77E /* MovieSearchError.swift in Sources */,

@@ -15,6 +15,14 @@ extension Int {
             return "\(hours)h \(minutes)m"
         }
     }
+    
+    var numberWithComma: String {
+        get {
+            let formatter = NumberFormatter()
+            formatter.numberStyle = .decimal
+            return formatter.string(from: NSNumber(value: self))!
+        }
+    }
 }
 
 extension Double {

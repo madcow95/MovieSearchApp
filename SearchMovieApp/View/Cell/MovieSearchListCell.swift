@@ -81,7 +81,7 @@ class MovieSearchListCell: UITableViewCell {
             print("error in MovieSearchListCell - configureUI() > \(error.localizedDescription)")
         }
         self.movieTitle.text = "\(movie.title) (\(movie.releaseDate.components(separatedBy: "-")[0]))"
-        self.rateLabel.text = "\((movie.voteAverage / 2).getTwoDecimal) (\(movie.voteCount))"
+        self.rateLabel.text = "\((movie.voteAverage / 2).getTwoDecimal) (\(movie.voteCount.numberWithComma))"
         self.tagLabel.text = movie.overview
         
         [posterImage, movieTitle, rateStar, rateLabel, tagLabel].forEach{ self.contentView.addSubview($0) }
@@ -111,6 +111,6 @@ class MovieSearchListCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         cancellable.removeAll()
-        posterImage.image = nil
+//        posterImage.image = nil
     }
 }

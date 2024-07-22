@@ -104,7 +104,7 @@ class MovieSearchService {
         }
         
         return URLSession.shared.dataTaskPublisher(for: url)
-            .receive(on: DispatchQueue.global())
+            .receive(on: DispatchQueue.main)
             .tryMap{ (data, _) in
                 // MARK: TODO - response 에러처리
                 return UIImage(data: data)

@@ -70,4 +70,10 @@ class MovieBookmarkTableCell: UITableViewCell {
             print("error configureUI > \(error.localizedDescription)")
         }
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        cancellable.removeAll()
+//        posterView.image = nil
+    }
 }

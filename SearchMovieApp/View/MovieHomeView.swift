@@ -92,21 +92,21 @@ class MovieHomeView: UIViewController {
         // MARK: - 반복문으로 처리?
         popularMovieButton.addAction(UIAction{ [weak self] _ in
             guard let self = self else { return }
-            let detailListView = MovieDetailListViewController()
+            let detailListView = MovieDetailListView()
             detailListView.loadedMovies = viewModel.popularMovies
             self.navigationController?.pushViewController(detailListView, animated: true)
         }, for: .touchUpInside)
         
         famousMovieButton.addAction(UIAction{ [weak self] _ in
             guard let self = self else { return }
-            let detailListView = MovieDetailListViewController()
+            let detailListView = MovieDetailListView()
             detailListView.loadedMovies = viewModel.famousMovies
             self.navigationController?.pushViewController(detailListView, animated: true)
         }, for: .touchUpInside)
     
         upComingMovieButton.addAction(UIAction{ [weak self] _ in
             guard let self = self else { return }
-            let detailListView = MovieDetailListViewController()
+            let detailListView = MovieDetailListView()
             detailListView.loadedMovies = viewModel.upComingMovies!.results
             self.navigationController?.pushViewController(detailListView, animated: true)
         }, for: .touchUpInside)
@@ -237,7 +237,7 @@ class MovieHomeView: UIViewController {
         searchResultsTableView.delegate = self
         searchResultsTableView.dataSource = self
         // MARK: ERROR - 기기별로 table의 위치가 조금씩 다름
-        searchResultsTableView.frame = CGRect(x: 0, y: 104, width: view.frame.width, height: view.frame.height - 104)
+        searchResultsTableView.frame = CGRect(x: 0, y: 104, width: view.frame.width, height: view.frame.height - 180)
         searchResultsTableView.alpha = 0.0
         searchResultsTableViewController.tableView = searchResultsTableView
         searchResultsTableView.register(MovieSearchListCell.self, forCellReuseIdentifier: "MovieSearchListCell")
@@ -278,6 +278,7 @@ extension MovieHomeView: UICollectionViewDataSource, UICollectionViewDelegate {
             return UICollectionViewCell()
         }
         
+        cell.viewModel = self.viewModel
         if collectionView == self.popularMovieCollection {
             let movie = viewModel.popularMovies[indexPath.row]
             cell.configureCell(movie: movie)
