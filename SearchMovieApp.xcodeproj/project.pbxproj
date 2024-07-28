@@ -11,6 +11,8 @@
 		CD26969C2C457D88009651BF /* MovieBookMarkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD26969B2C457D88009651BF /* MovieBookMarkViewModel.swift */; };
 		CD26969E2C4580D7009651BF /* MovieBookmarkTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD26969D2C4580D7009651BF /* MovieBookmarkTableCell.swift */; };
 		CD72DD502C37C8B600B7C4DD /* MovieDetailListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD72DD4F2C37C8B600B7C4DD /* MovieDetailListView.swift */; };
+		CDA3BD152C568CEC007A64E8 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = CDA3BD142C568CEC007A64E8 /* SnapKit */; };
+		CDA3BD182C568CFA007A64E8 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = CDA3BD172C568CFA007A64E8 /* Alamofire */; };
 		CDB9D1122C4126180065B383 /* Extension+UIScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB9D1112C4126180065B383 /* Extension+UIScrollView.swift */; };
 		CDB9D1142C4126D70065B383 /* Extension+UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB9D1132C4126D70065B383 /* Extension+UIButton.swift */; };
 		CDB9D1162C4126F40065B383 /* Extension+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB9D1152C4126F40065B383 /* Extension+UIView.swift */; };
@@ -70,6 +72,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CDA3BD152C568CEC007A64E8 /* SnapKit in Frameworks */,
+				CDA3BD182C568CFA007A64E8 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -222,6 +226,10 @@
 			dependencies = (
 			);
 			name = SearchMovieApp;
+			packageProductDependencies = (
+				CDA3BD142C568CEC007A64E8 /* SnapKit */,
+				CDA3BD172C568CFA007A64E8 /* Alamofire */,
+			);
 			productName = SearchMovieApp;
 			productReference = CDF1EF4F2C34391600DDE77E /* SearchMovieApp.app */;
 			productType = "com.apple.product-type.application";
@@ -250,6 +258,10 @@
 				Base,
 			);
 			mainGroup = CDF1EF462C34391600DDE77E;
+			packageReferences = (
+				CDA3BD132C568CEC007A64E8 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				CDA3BD162C568CFA007A64E8 /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			productRefGroup = CDF1EF502C34391600DDE77E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -502,6 +514,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		CDA3BD132C568CEC007A64E8 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+		CDA3BD162C568CFA007A64E8 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.9.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CDA3BD142C568CEC007A64E8 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CDA3BD132C568CEC007A64E8 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		CDA3BD172C568CFA007A64E8 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CDA3BD162C568CFA007A64E8 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		CD2696982C456AC1009651BF /* MovieData.xcdatamodeld */ = {
