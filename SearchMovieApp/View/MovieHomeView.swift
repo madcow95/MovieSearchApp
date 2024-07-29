@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import SnapKit
 
 class MovieHomeView: UIViewController {
     
@@ -143,18 +144,20 @@ class MovieHomeView: UIViewController {
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         
-        NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            
-            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
-        ])
+        scrollView.snp.makeConstraints { scroll in
+            scroll.top.equalTo(self.view.snp.top)
+            scroll.left.equalTo(self.view.snp.left)
+            scroll.right.equalTo(self.view.snp.right)
+            scroll.bottom.equalTo(self.view.snp.bottom)
+        }
+        
+        contentView.snp.makeConstraints { content in
+            content.top.equalTo(self.scrollView.snp.top)
+            content.left.equalTo(self.scrollView.snp.left)
+            content.right.equalTo(self.scrollView.snp.right)
+            content.bottom.equalTo(self.scrollView.snp.bottom)
+            content.width.equalTo(self.scrollView.snp.width)
+        }
     }
     
     func setPopularMovieScrollView() {
@@ -165,19 +168,23 @@ class MovieHomeView: UIViewController {
         let divider = CustomDivider()
         [popularMovieButton, popularMovieCollection, divider].forEach{ contentView.addSubview($0) }
         
-        NSLayoutConstraint.activate([
-            popularMovieButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            popularMovieButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            
-            popularMovieCollection.topAnchor.constraint(equalTo: popularMovieButton.bottomAnchor, constant: 10),
-            popularMovieCollection.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            popularMovieCollection.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            popularMovieCollection.heightAnchor.constraint(equalToConstant: 250),
-            
-            divider.topAnchor.constraint(equalTo: popularMovieCollection.bottomAnchor, constant: 15),
-            divider.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            divider.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
-        ])
+        popularMovieButton.snp.makeConstraints { btn in
+            btn.top.equalTo(self.contentView.snp.top).offset(10)
+            btn.left.equalTo(self.contentView.snp.left).offset(10)
+        }
+        
+        popularMovieCollection.snp.makeConstraints { col in
+            col.top.equalTo(self.popularMovieButton.snp.bottom).offset(10)
+            col.left.equalTo(self.contentView.snp.left)
+            col.right.equalTo(self.contentView.snp.right)
+            col.height.equalTo(250)
+        }
+        
+        divider.snp.makeConstraints { div in
+            div.top.equalTo(self.popularMovieCollection.snp.bottom).offset(15)
+            div.left.equalTo(self.contentView.snp.left).offset(10)
+            div.right.equalTo(self.contentView.snp.right).offset(-10)
+        }
         
         prevBottomAnchor = divider.bottomAnchor
     }
