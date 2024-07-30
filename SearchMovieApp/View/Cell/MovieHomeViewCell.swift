@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import SnapKit
 
 class MovieHomeViewCell: UICollectionViewCell {
     
@@ -64,12 +65,13 @@ class MovieHomeViewCell: UICollectionViewCell {
     
     func setupView() {
         contentView.addSubview(progressIndicator)
-        NSLayoutConstraint.activate([
-            progressIndicator.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10),
-            progressIndicator.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 10),
-            progressIndicator.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10),
-            progressIndicator.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: 10)
-        ])
+        progressIndicator.snp.makeConstraints { [weak self] indicator in
+            guard let self = self else { return }
+            indicator.top.equalTo(self.contentView.snp.top).offset(10)
+            indicator.left.equalTo(self.contentView.snp.left).offset(10)
+            indicator.right.equalTo(self.contentView.snp.right).offset(-10)
+            indicator.bottom.equalTo(self.contentView.snp.bottom).offset(-10)
+        }
     }
     
     func configureCell(movie: MovieInfo) {
@@ -85,12 +87,13 @@ class MovieHomeViewCell: UICollectionViewCell {
                     self.posterView.image = poster
                     contentView.addSubview(vStack)
             
-                    NSLayoutConstraint.activate([
-                        vStack.topAnchor.constraint(equalTo: contentView.topAnchor),
-                        vStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-                        vStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-                        vStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-                    ])
+                    vStack.snp.makeConstraints { [weak self] stack in
+                        guard let self = self else { return }
+                        stack.top.equalTo(self.contentView.snp.top)
+                        stack.left.equalTo(self.contentView.snp.left)
+                        stack.right.equalTo(self.contentView.snp.right)
+                        stack.bottom.equalTo(self.contentView.snp.bottom)
+                    }
                 })
                 .store(in: &cancellable)
         } catch {

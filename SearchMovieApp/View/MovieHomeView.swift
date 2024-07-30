@@ -23,7 +23,7 @@ class MovieHomeView: UIViewController {
     private lazy var upComingMovieCollection = CustomHorizontalScroll()
     private lazy var searchResultsTableViewController = UITableViewController()
     private lazy var searchResultsTableView = UITableView()
-    private var prevBottomAnchor: NSLayoutYAxisAnchor!
+    private var prevBottomAnchor: ConstraintItem!
     
     // Data Source
     private let viewModel = MovieHomeViewModel()
@@ -144,14 +144,16 @@ class MovieHomeView: UIViewController {
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         
-        scrollView.snp.makeConstraints { scroll in
+        scrollView.snp.makeConstraints { [weak self] scroll in
+            guard let self = self else { return }
             scroll.top.equalTo(self.view.snp.top)
             scroll.left.equalTo(self.view.snp.left)
             scroll.right.equalTo(self.view.snp.right)
             scroll.bottom.equalTo(self.view.snp.bottom)
         }
         
-        contentView.snp.makeConstraints { content in
+        contentView.snp.makeConstraints { [weak self] content in
+            guard let self = self else { return }
             content.top.equalTo(self.scrollView.snp.top)
             content.left.equalTo(self.scrollView.snp.left)
             content.right.equalTo(self.scrollView.snp.right)
@@ -168,25 +170,28 @@ class MovieHomeView: UIViewController {
         let divider = CustomDivider()
         [popularMovieButton, popularMovieCollection, divider].forEach{ contentView.addSubview($0) }
         
-        popularMovieButton.snp.makeConstraints { btn in
+        popularMovieButton.snp.makeConstraints { [weak self] btn in
+            guard let self = self else { return }
             btn.top.equalTo(self.contentView.snp.top).offset(10)
             btn.left.equalTo(self.contentView.snp.left).offset(10)
         }
         
-        popularMovieCollection.snp.makeConstraints { col in
+        popularMovieCollection.snp.makeConstraints { [weak self] col in
+            guard let self = self else { return }
             col.top.equalTo(self.popularMovieButton.snp.bottom).offset(10)
             col.left.equalTo(self.contentView.snp.left)
             col.right.equalTo(self.contentView.snp.right)
             col.height.equalTo(250)
         }
         
-        divider.snp.makeConstraints { div in
+        divider.snp.makeConstraints { [weak self] div in
+            guard let self = self else { return }
             div.top.equalTo(self.popularMovieCollection.snp.bottom).offset(15)
             div.left.equalTo(self.contentView.snp.left).offset(10)
             div.right.equalTo(self.contentView.snp.right).offset(-10)
         }
         
-        prevBottomAnchor = divider.bottomAnchor
+        prevBottomAnchor = divider.snp.bottom
     }
     
     func setFamousMovieScrollView() {
@@ -197,21 +202,28 @@ class MovieHomeView: UIViewController {
         let divider = CustomDivider()
         [famousMovieButton, famousMovieCollection, divider].forEach{ contentView.addSubview($0) }
         
-        NSLayoutConstraint.activate([
-            famousMovieButton.topAnchor.constraint(equalTo: prevBottomAnchor, constant: 10),
-            famousMovieButton.leadingAnchor.constraint(equalTo: popularMovieCollection.leadingAnchor, constant: 10),
-            
-            famousMovieCollection.topAnchor.constraint(equalTo: famousMovieButton.bottomAnchor, constant: 10),
-            famousMovieCollection.leadingAnchor.constraint(equalTo: popularMovieCollection.leadingAnchor),
-            famousMovieCollection.trailingAnchor.constraint(equalTo: popularMovieCollection.trailingAnchor),
-            famousMovieCollection.heightAnchor.constraint(equalToConstant: 250),
-            
-            divider.topAnchor.constraint(equalTo: famousMovieCollection.bottomAnchor, constant: 10),
-            divider.leadingAnchor.constraint(equalTo: famousMovieCollection.leadingAnchor),
-            divider.trailingAnchor.constraint(equalTo: famousMovieCollection.trailingAnchor)
-        ])
+        famousMovieButton.snp.makeConstraints { [weak self] btn in
+            guard let self = self else { return }
+            btn.top.equalTo(self.prevBottomAnchor).offset(10)
+            btn.left.equalTo(self.popularMovieCollection.snp.left).offset(10)
+        }
         
-        prevBottomAnchor = divider.bottomAnchor
+        famousMovieCollection.snp.makeConstraints { [weak self] col in
+            guard let self = self else { return }
+            col.top.equalTo(self.famousMovieButton.snp.bottom).offset(10)
+            col.left.equalTo(self.popularMovieCollection.snp.left)
+            col.right.equalTo(self.popularMovieCollection.snp.right)
+            col.height.equalTo(250)
+        }
+        
+        divider.snp.makeConstraints { [weak self] div in
+            guard let self = self else { return }
+            div.top.equalTo(self.famousMovieCollection.snp.bottom).offset(10)
+            div.left.equalTo(self.famousMovieCollection.snp.left)
+            div.right.equalTo(self.famousMovieCollection.snp.right)
+        }
+        
+        prevBottomAnchor = divider.snp.bottom
     }
     
     func setUpComingMovieScrollView() {
@@ -222,22 +234,29 @@ class MovieHomeView: UIViewController {
         let divider = CustomDivider()
         [upComingMovieButton, upComingMovieCollection, divider].forEach{ contentView.addSubview($0) }
         
-        NSLayoutConstraint.activate([
-            upComingMovieButton.topAnchor.constraint(equalTo: prevBottomAnchor, constant: 10),
-            upComingMovieButton.leadingAnchor.constraint(equalTo: famousMovieCollection.leadingAnchor, constant: 10),
-            
-            upComingMovieCollection.topAnchor.constraint(equalTo: upComingMovieButton.bottomAnchor, constant: 10),
-            upComingMovieCollection.leadingAnchor.constraint(equalTo: famousMovieCollection.leadingAnchor),
-            upComingMovieCollection.trailingAnchor.constraint(equalTo: famousMovieCollection.trailingAnchor),
-            upComingMovieCollection.heightAnchor.constraint(equalToConstant: 250),
-            
-            divider.topAnchor.constraint(equalTo: upComingMovieCollection.bottomAnchor, constant: 10),
-            divider.leadingAnchor.constraint(equalTo: upComingMovieCollection.leadingAnchor),
-            divider.trailingAnchor.constraint(equalTo: upComingMovieCollection.trailingAnchor),
-            divider.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-        ])
+        upComingMovieButton.snp.makeConstraints { [weak self] btn in
+            guard let self = self else { return }
+            btn.top.equalTo(self.prevBottomAnchor).offset(10)
+            btn.left.equalTo(self.famousMovieCollection.snp.left).offset(10)
+        }
         
-        prevBottomAnchor = divider.bottomAnchor
+        upComingMovieCollection.snp.makeConstraints { [weak self] col in
+            guard let self = self else { return }
+            col.top.equalTo(self.upComingMovieButton.snp.bottom).offset(10)
+            col.left.equalTo(self.famousMovieCollection.snp.left)
+            col.right.equalTo(self.famousMovieCollection.snp.right)
+            col.height.equalTo(250)
+        }
+        
+        divider.snp.makeConstraints { [weak self] div in
+            guard let self = self else { return }
+            div.top.equalTo(self.upComingMovieCollection.snp.bottom).offset(10)
+            div.left.equalTo(self.upComingMovieCollection.snp.left)
+            div.right.equalTo(self.upComingMovieCollection.snp.right)
+            div.bottom.equalTo(self.contentView.snp.bottom)
+        }
+        
+        prevBottomAnchor = divider.snp.bottom
     }
     
     func setSearchResultTable() {
