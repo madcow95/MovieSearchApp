@@ -14,7 +14,7 @@ class MovieBookmarkTableCell: UITableViewCell {
         iv.translatesAutoresizingMaskIntoConstraints = false
         iv.contentMode = .scaleAspectFit
         iv.widthAnchor.constraint(equalToConstant: 150).isActive = true
-        iv.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        iv.heightAnchor.constraint(equalToConstant: 280).isActive = true
         
         return iv
     }()
@@ -44,15 +44,19 @@ class MovieBookmarkTableCell: UITableViewCell {
     func setUIComponents() {
         [posterImage, movieTitle].forEach{ self.contentView.addSubview($0) }
         
-        NSLayoutConstraint.activate([
-            self.posterImage.topAnchor.constraint(equalTo: self.contentView.topAnchor),
-            self.posterImage.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 10),
-            self.posterImage.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
-            
-            self.movieTitle.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
-            self.movieTitle.leadingAnchor.constraint(equalTo: self.posterImage.trailingAnchor, constant: 10),
-            self.movieTitle.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10)
-        ])
+        posterImage.snp.makeConstraints { [weak self] poster in
+            guard let self = self else { return }
+            poster.top.equalTo(self.contentView.snp.top).offset(10)
+            poster.left.equalTo(self.contentView.snp.left).offset(10)
+            poster.bottom.equalTo(self.contentView.snp.bottom).offset(-10)
+        }
+        
+        movieTitle.snp.makeConstraints { [weak self] title in
+            guard let self = self else { return }
+            title.centerY.equalTo(self.contentView.snp.centerY)
+            title.left.equalTo(self.posterImage.snp.right).offset(10)
+            title.right.equalTo(self.contentView.snp.right).offset(-10)
+        }
     }
     
     func configureUI(movie: MovieInfo) {

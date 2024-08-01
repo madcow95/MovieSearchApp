@@ -38,12 +38,13 @@ class MovieDetailListView: UIViewController {
     func setCollectionView() {
         view.addSubview(collectionView)
         
-        NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
+        collectionView.snp.makeConstraints { [weak self] collection in
+            guard let self = self else { return }
+            collection.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
+            collection.left.equalTo(self.view.snp.left)
+            collection.right.equalTo(self.view.snp.right)
+            collection.bottom.equalTo(self.view.snp.bottom)
+        }
     }
 }
 

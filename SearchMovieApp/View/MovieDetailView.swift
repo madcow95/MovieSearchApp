@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import SnapKit
 
 class MovieDetailView: UIViewController {
     
@@ -172,47 +173,67 @@ class MovieDetailView: UIViewController {
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         
-        NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            
-            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
-        ])
+        scrollView.snp.makeConstraints { [weak self] scroll in
+            guard let self = self else { return }
+            scroll.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
+            scroll.left.equalTo(self.view.snp.left)
+            scroll.right.equalTo(self.view.snp.right)
+            scroll.bottom.equalTo(self.view.snp.bottom)
+        }
+        
+        contentView.snp.makeConstraints { [weak self] content in
+            guard let self = self else { return }
+            content.top.equalTo(self.scrollView.snp.top)
+            content.left.equalTo(self.scrollView.snp.left)
+            content.right.equalTo(self.scrollView.snp.right)
+            content.bottom.equalTo(self.scrollView.snp.bottom)
+            content.width.equalTo(self.scrollView.snp.width)
+        }
     }
     
     func setMovieDetailView() {
         [posterImage, titleStackView, averageImageStackView,
          trailerButton, movieGenres, movieSummary].forEach{ self.view.addSubview($0) }
         
-        NSLayoutConstraint.activate([
-            posterImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
-            posterImage.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            
-            titleStackView.topAnchor.constraint(equalTo: posterImage.bottomAnchor, constant: 8),
-            titleStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
-            titleStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
-            
-            averageImageStackView.topAnchor.constraint(equalTo: titleStackView.bottomAnchor, constant: 8),
-            averageImageStackView.leadingAnchor.constraint(equalTo: titleStackView.leadingAnchor),
-            
-            trailerButton.centerYAnchor.constraint(equalTo: averageImageStackView.centerYAnchor),
-            trailerButton.leadingAnchor.constraint(equalTo: averageImageStackView.trailingAnchor, constant: 8),
-            
-            movieGenres.topAnchor.constraint(equalTo: averageImageStackView.bottomAnchor, constant: 10),
-            movieGenres.leadingAnchor.constraint(equalTo: titleStackView.leadingAnchor),
-            movieGenres.trailingAnchor.constraint(equalTo: titleStackView.trailingAnchor),
-            
-            movieSummary.topAnchor.constraint(equalTo: movieGenres.bottomAnchor, constant: 8),
-            movieSummary.leadingAnchor.constraint(equalTo: movieTitle.leadingAnchor),
-            movieSummary.trailingAnchor.constraint(equalTo: titleStackView.trailingAnchor),
-            movieSummary.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-        ])
+        posterImage.snp.makeConstraints { [weak self] poster in
+            guard let self = self else { return }
+            poster.top.equalTo(self.contentView.snp.top).offset(20)
+            poster.centerX.equalTo(self.contentView.snp.centerX)
+        }
+        
+        titleStackView.snp.makeConstraints { [weak self] stack in
+            guard let self = self else { return }
+            stack.top.equalTo(self.posterImage.snp.bottom).offset(8)
+            stack.left.equalTo(self.contentView.snp.left).offset(15)
+            stack.right.equalTo(self.contentView.snp.right).offset(-15)
+        }
+        
+        averageImageStackView.snp.makeConstraints { [weak self] stack in
+            guard let self = self else { return }
+            stack.top.equalTo(self.titleStackView.snp.bottom).offset(8)
+            stack.left.equalTo(self.titleStackView.snp.left)
+        }
+        
+        trailerButton.snp.makeConstraints { [weak self] btn in
+            guard let self = self else { return }
+            btn.centerY.equalTo(self.averageImageStackView.snp.centerY)
+            btn.left.equalTo(self.averageImageStackView.snp.right).offset(8)
+        }
+        
+        movieGenres.snp.makeConstraints { [weak self] movie in
+            guard let self = self else { return }
+            movie.top.equalTo(self.averageImageStackView.snp.bottom).offset(10)
+            movie.left.equalTo(self.titleStackView.snp.left)
+            movie.right.equalTo(self.titleStackView.snp.right)
+        }
+        
+        movieSummary.snp.makeConstraints { [weak self] summary in
+            guard let self = self else { return }
+            summary.top.equalTo(self.movieGenres.snp.bottom).offset(8)
+            summary.left.equalTo(self.movieTitle.snp.left)
+            summary.right.equalTo(self.titleStackView.snp.right)
+            summary.bottom.equalTo(self.contentView.snp.bottom)
+        }
     }
     
     func setDataToUIComponents(detail: MovieDetail) {

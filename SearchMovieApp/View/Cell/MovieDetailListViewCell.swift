@@ -34,10 +34,11 @@ class MovieDetailListViewCell: UICollectionViewCell {
     func setUIComponents() {
         self.contentView.addSubview(posterView)
         
-        NSLayoutConstraint.activate([
-            posterView.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
-            posterView.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor)
-        ])
+        posterView.snp.makeConstraints { [weak self] poster in
+            guard let self = self else { return }
+            poster.centerX.equalTo(self.contentView.snp.centerX)
+            poster.centerY.equalTo(self.contentView.snp.centerY)
+        }
     }
     
     func configureCell(movie: MovieInfo) {

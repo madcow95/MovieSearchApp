@@ -86,26 +86,39 @@ class MovieSearchListCell: UITableViewCell {
         
         [posterImage, movieTitle, rateStar, rateLabel, tagLabel].forEach{ self.contentView.addSubview($0) }
         
-        NSLayoutConstraint.activate([
-            self.posterImage.topAnchor.constraint(equalTo: self.contentView.topAnchor),
-            self.posterImage.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 8),
-            self.posterImage.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
-            
-            self.movieTitle.topAnchor.constraint(equalTo: self.posterImage.topAnchor),
-            self.movieTitle.leadingAnchor.constraint(equalTo: self.posterImage.trailingAnchor, constant: 15),
-            self.movieTitle.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
-            
-            self.rateStar.topAnchor.constraint(equalTo: self.movieTitle.bottomAnchor, constant: 8),
-            self.rateStar.leadingAnchor.constraint(equalTo: self.movieTitle.leadingAnchor),
-            
-            self.rateLabel.topAnchor.constraint(equalTo: self.movieTitle.bottomAnchor, constant: 8),
-            self.rateLabel.leadingAnchor.constraint(equalTo: self.rateStar.trailingAnchor, constant: 8),
-            
-            self.tagLabel.topAnchor.constraint(equalTo: self.rateLabel.bottomAnchor, constant: 8),
-            self.tagLabel.leadingAnchor.constraint(equalTo: self.movieTitle.leadingAnchor),
-            self.tagLabel.trailingAnchor.constraint(equalTo: self.movieTitle.trailingAnchor),
-            self.tagLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)
-        ])
+        posterImage.snp.makeConstraints { [weak self] img in
+            guard let self = self else { return }
+            img.top.equalTo(self.contentView.snp.top).offset(5)
+            img.left.equalTo(self.contentView.snp.left).offset(8)
+            img.bottom.equalTo(self.contentView.snp.bottom).offset(-5)
+        }
+        
+        movieTitle.snp.makeConstraints { [weak self] title in
+            guard let self = self else { return }
+            title.top.equalTo(self.posterImage.snp.top)
+            title.left.equalTo(self.posterImage.snp.right).offset(15)
+            title.right.equalTo(self.contentView.snp.right)
+        }
+        
+        rateStar.snp.makeConstraints { [weak self] star in
+            guard let self = self else { return }
+            star.top.equalTo(self.movieTitle.snp.bottom).offset(8)
+            star.left.equalTo(self.movieTitle.snp.left)
+        }
+        
+        rateLabel.snp.makeConstraints { [weak self] label in
+            guard let self = self else { return }
+            label.top.equalTo(self.movieTitle.snp.bottom).offset(8)
+            label.left.equalTo(self.rateStar.snp.right).offset(8)
+        }
+        
+        tagLabel.snp.makeConstraints { [weak self] label in
+            guard let self = self else { return }
+            label.top.equalTo(self.rateLabel.snp.bottom).offset(8)
+            label.left.equalTo(self.movieTitle.snp.left)
+            label.right.equalTo(self.movieTitle.snp.right)
+            label.bottom.equalTo(self.contentView.snp.bottom)
+        }
     }
     
     override func prepareForReuse() {

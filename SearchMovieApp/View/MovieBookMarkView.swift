@@ -49,12 +49,13 @@ class MovieBookMarkView: UIViewController {
     func setConstraint() {
         self.view.addSubview(bookmarkList)
         
-        NSLayoutConstraint.activate([
-            bookmarkList.topAnchor.constraint(equalTo: self.view.topAnchor),
-            bookmarkList.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            bookmarkList.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            bookmarkList.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
-        ])
+        bookmarkList.snp.makeConstraints { [weak self] list in
+            guard let self = self else { return }
+            list.top.equalTo(self.view.snp.top)
+            list.left.equalTo(self.view.snp.left)
+            list.right.equalTo(self.view.snp.right)
+            list.bottom.equalTo(self.view.snp.bottom)
+        }
     }
 }
 
