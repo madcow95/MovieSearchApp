@@ -65,4 +65,8 @@ extension MovieDetailListView: UICollectionViewDelegate, UICollectionViewDataSou
         
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: self.view.bounds.width / 4, height: 250)
+    }
 }
