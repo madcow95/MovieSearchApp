@@ -78,6 +78,27 @@ enum SearchType {
         }
     }
     
+    func getSearchQueries(page: Int = 1, query: String = "") -> [String: Any] {
+        var queries: [String: Any] = [
+            "language": "ko-KR"
+        ]
+        switch self {
+        case .weeklyPopular:
+            queries["page"] = page
+        case .famous:
+            queries["page"] = page
+        case .upComing:
+            queries["page"] = page
+        case .search:
+            queries["query"] = query
+            queries["include_adult"] = "true"
+            queries["page"] = page
+        case .detail:
+            break
+        }
+        return queries
+    }
+    
     func getSearchQuery(page: Int = 1, query: String = "") -> [URLQueryItem] {
         let baseQueryItem = URLQueryItem(name: "language", value: "ko-KR")
         switch self {

@@ -21,7 +21,7 @@ class MovieDetailViewModel {
     func fetchMovieDetail(id: Int) {
         do {
             try service.getMovieDetailInfo(id: id)
-                .receive(on: DispatchQueue.global())
+                .receive(on: DispatchQueue.main)
                 .sink { completion in
                     switch completion {
                     case .finished:
