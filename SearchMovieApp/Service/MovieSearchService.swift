@@ -24,6 +24,10 @@ class MovieSearchService {
         self.youtubeKey = youtubeAPIKey
     }
     
+    func getMovieKey() -> String {
+        return self.movieKey!
+    }
+    
     func fetchMovie(searchType: SearchType, page: Int, query: String = "") -> AnyPublisher<MovieModel, any Error> {
         
         let url = URL(string: searchType.getSearchURL())!

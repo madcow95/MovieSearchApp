@@ -263,7 +263,15 @@ class MovieHomeView: UIViewController {
         searchResultsTableView.delegate = self
         searchResultsTableView.dataSource = self
         // MARK: ERROR - 기기별로 table의 위치가 조금씩 다름
-        searchResultsTableView.frame = CGRect(x: 0, y: 104, width: view.frame.width, height: view.frame.height - 180)
+//        searchResultsTableView.frame = CGRect(x: 0, y: 104, width: view.frame.width, height: view.frame.height - 180)
+        self.view.addSubview(searchResultsTableView)
+        searchResultsTableView.snp.makeConstraints { [weak self] make in
+            guard let self = self else { return }
+            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
+            make.left.equalTo(self.view.snp.left)
+            make.right.equalTo(self.view.snp.right)
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
+        }
         searchResultsTableView.alpha = 0.0
         searchResultsTableViewController.tableView = searchResultsTableView
         searchResultsTableView.register(MovieSearchListCell.self, forCellReuseIdentifier: "MovieSearchListCell")

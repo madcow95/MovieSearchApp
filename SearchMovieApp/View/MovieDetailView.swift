@@ -8,6 +8,7 @@
 import UIKit
 import Combine
 import SnapKit
+import YouTubePlayerKit
 
 class MovieDetailView: UIViewController {
     
@@ -119,7 +120,6 @@ class MovieDetailView: UIViewController {
         super.viewDidLoad()
         
         guard let movieInfo = self.movieInfo else { return }
-        
         fetchMovie(id: movieInfo.id)
         configureUI()
     }
@@ -154,6 +154,7 @@ class MovieDetailView: UIViewController {
         
         detailViewModel.fetchMovieDetail(id: id)
         detailViewModel.loadBookmarkedMovieBy(id: id)
+        detailViewModel.getTrailerURL(id: id)
     }
     
     func configureUI() {
@@ -268,9 +269,16 @@ class MovieDetailView: UIViewController {
         averageLabel.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         averageLabel.textColor = .lightGray
         averageImageStackView.addArrangedSubview(averageLabel)
-        trailerButton.addAction(UIAction { /*[weak self]*/ _ in
-            // guard let self = self else { return }
-            // MARK: TODO - trailer 재생 화면 띄우기(modal(webVie) or popup(avkit))
+        trailerButton.addAction(UIAction { [weak self] _ in
+             guard let self = self else { return }
+            let youTubePlayer: YouTubePlayer = YouTubePlayer(stringLiteral: detailViewModel.trailerURL)
+            let youTubePlayerViewController = YouTubePlayerViewController (
+                player: youTubePlayer
+            )
+            youTubePlayerViewController.sheetPresentationController?.prefersGrabberVisible = true
+            self.present(youTubePlayerViewController, animated: true) {
+                youTubePlayerViewController.player.play()
+            }
         }, for: .touchUpInside)
         trailerButton.titleLabel?.textColor = .lightGray
         trailerButton.tintColor = .white

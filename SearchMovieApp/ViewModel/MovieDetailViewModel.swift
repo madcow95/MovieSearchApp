@@ -8,12 +8,14 @@
 import UIKit
 import Combine
 import CoreData
+import Alamofire
 
 class MovieDetailViewModel {
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     @Published var movieDetail: MovieDetail?
     @Published var bookmarkedMovie: MovieInfo?
+    var trailerURL: String = ""
     
     private var cancellable = Set<AnyCancellable>()
     let service = MovieSearchService()
@@ -37,6 +39,28 @@ class MovieDetailViewModel {
         } catch {
             print(error)
         }
+    }
+    
+    func getTrailerURL(id: Int) {
+        guard let url = URL(string: "https://api.themoviedb.org/3/movie/\(id)/videos") else { return }
+        let parameters: [String: Any] = SearchType.detail.getSearchQueries()
+        let headers: HTTPHeaders = [
+            "accept": "application/json",
+            "Authorization": "Bearer \(service.getMovieKey())"
+        ]
+        
+        AF.request(url, parameters: parameters, headers: headers)
+            .response { res in
+                guard let data = res.data else { return }
+                do {
+                    let trailerModels = try JSONDecoder().decode(TrailerModel.self, from: data)
+                    if let trailer = trailerModels.results.filter({ $0.type == "Trailer" }).first {
+                        self.trailerURL = "https://www.youtube.com/watch?v=\(trailer.key)"
+                    }
+                } catch {
+                    print("error > \(error.localizedDescription)")
+                }
+            }
     }
     
     func saveBookmark(movie: MovieInfo) {
