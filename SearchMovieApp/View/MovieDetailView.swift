@@ -18,6 +18,8 @@ class MovieDetailView: UIViewController {
     private var cancellable = Set<AnyCancellable>()
     private let detailViewModel = MovieDetailViewModel()
     
+    // MARK: TODO - 전체, 12세, 15세, 19세 관람가 이미지 추가
+    // UIComponents
     private lazy var scrollView: UIScrollView = {
         let scroll = UIScrollView()
         scroll.translatesAutoresizingMaskIntoConstraints = false
@@ -270,7 +272,8 @@ class MovieDetailView: UIViewController {
         averageLabel.textColor = .lightGray
         averageImageStackView.addArrangedSubview(averageLabel)
         trailerButton.addAction(UIAction { [weak self] _ in
-             guard let self = self else { return }
+            // MARK: TODO - 19세 이상 영상에서는 오류가 발생하는거 같으니까 19세 이상 영화를 필터를 하던지 영상을 재상할 수 없다는 메세지를 띄우던지 해야할듯 함
+            guard let self = self else { return }
             let youTubePlayer: YouTubePlayer = YouTubePlayer(stringLiteral: detailViewModel.trailerURL)
             let youTubePlayerViewController = YouTubePlayerViewController (
                 player: youTubePlayer
