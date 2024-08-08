@@ -43,39 +43,6 @@ class MovieSearchService {
                 return MovieSearchError.urlError
             }
             .eraseToAnyPublisher()
-        
-//        let queryItems: [URLQueryItem] = searchType.getSearchQuery(page: page, query: query)
-//        var components = URLComponents(url: url, resolvingAgainstBaseURL: true)!
-//        components.queryItems = components.queryItems.map { $0 + queryItems } ?? queryItems
-//        
-//        var request = URLRequest(url: components.url!)
-//        request.httpMethod = "GET"
-//        request.timeoutInterval = 10
-//        request.allHTTPHeaderFields = [
-//            "accept": "application/json",
-//            "Authorization": "Bearer \(movieKey!)"
-//        ]
-        
-//        return URLSession.shared.dataTaskPublisher(for: request)
-//            .receive(on: DispatchQueue.global())
-//            .tryMap{ (data, response) in
-//                guard let responseStatus = response as? HTTPURLResponse else {
-//                    throw MovieSearchError.urlError
-//                }
-//                
-//                switch responseStatus.statusCode {
-//                case 300..<400:
-//                    throw MovieSearchError.urlError
-//                case 400..<500:
-//                    throw MovieSearchError.serverError
-//                default:
-//                    break
-//                }
-//                
-//                return try JSONDecoder().decode(MovieModel.self, from: data)
-//            }
-//            .share()
-//            .eraseToAnyPublisher()
     }
     
     func getMovieDetailInfo(id: Int) throws -> AnyPublisher<MovieDetail?, any Error> {
@@ -116,3 +83,39 @@ class MovieSearchService {
             .eraseToAnyPublisher()
     }
 }
+
+/*
+    MARK: URLSession으로 API호출
+    let queryItems: [URLQueryItem] = searchType.getSearchQuery(page: page, query: query)
+    var components = URLComponents(url: url, resolvingAgainstBaseURL: true)!
+    components.queryItems = components.queryItems.map { $0 + queryItems } ?? queryItems
+
+    var request = URLRequest(url: components.url!)
+    request.httpMethod = "GET"
+    request.timeoutInterval = 10
+    request.allHTTPHeaderFields = [
+        "accept": "application/json",
+        "Authorization": "Bearer \(movieKey!)"
+    ]
+
+    return URLSession.shared.dataTaskPublisher(for: request)
+        .receive(on: DispatchQueue.global())
+        .tryMap{ (data, response) in
+            guard let responseStatus = response as? HTTPURLResponse else {
+                throw MovieSearchError.urlError
+            }
+
+            switch responseStatus.statusCode {
+            case 300..<400:
+                throw MovieSearchError.urlError
+            case 400..<500:
+                throw MovieSearchError.serverError
+            default:
+                break
+            }
+
+            return try JSONDecoder().decode(MovieModel.self, from: data)
+        }
+        .share()
+        .eraseToAnyPublisher()
+ */

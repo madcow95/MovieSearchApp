@@ -78,6 +78,7 @@ enum SearchType {
         }
     }
     
+    // MARK: Alamofire로 API호출에 필요한 데이터 불러오기 함수(queries)
     func getSearchQueries(page: Int = 1, query: String = "") -> [String: Any] {
         var queries: [String: Any] = [
             "language": "ko-KR"
@@ -98,36 +99,39 @@ enum SearchType {
         }
         return queries
     }
-    
-    func getSearchQuery(page: Int = 1, query: String = "") -> [URLQueryItem] {
-        let baseQueryItem = URLQueryItem(name: "language", value: "ko-KR")
-        switch self {
-        case .weeklyPopular:
-            return [
-                baseQueryItem,
-                URLQueryItem(name: "page", value: "\(page)")
-            ]
-        case .famous:
-            return [
-                baseQueryItem,
-                URLQueryItem(name: "page", value: "\(page)")
-            ]
-        case .upComing:
-            return [
-                baseQueryItem,
-                URLQueryItem(name: "page", value: "\(page)")
-            ]
-        case .search:
-            return [
-                URLQueryItem(name: "query", value: query),
-                URLQueryItem(name: "include_adult", value: "true"),
-                baseQueryItem,
-                URLQueryItem(name: "page", value: "\(page)")
-            ]
-        case .detail:
-            return [
-                baseQueryItem
-            ]
-        }
-    }
 }
+
+/*
+ MARK: URLSession으로 API호출에 필요한 데이터 불러오기 함수
+ func getSearchQuery(page: Int = 1, query: String = "") -> [URLQueryItem] {
+     let baseQueryItem = URLQueryItem(name: "language", value: "ko-KR")
+     switch self {
+     case .weeklyPopular:
+         return [
+             baseQueryItem,
+             URLQueryItem(name: "page", value: "\(page)")
+         ]
+     case .famous:
+         return [
+             baseQueryItem,
+             URLQueryItem(name: "page", value: "\(page)")
+         ]
+     case .upComing:
+         return [
+             baseQueryItem,
+             URLQueryItem(name: "page", value: "\(page)")
+         ]
+     case .search:
+         return [
+             URLQueryItem(name: "query", value: query),
+             URLQueryItem(name: "include_adult", value: "true"),
+             baseQueryItem,
+             URLQueryItem(name: "page", value: "\(page)")
+         ]
+     case .detail:
+         return [
+             baseQueryItem
+         ]
+     }
+ }
+ */

@@ -274,13 +274,20 @@ class MovieDetailView: UIViewController {
         trailerButton.addAction(UIAction { [weak self] _ in
             // MARK: TODO - 19세 이상 영상에서는 오류가 발생하는거 같으니까 19세 이상 영화를 필터를 하던지 영상을 재상할 수 없다는 메세지를 띄우던지 해야할듯 함
             guard let self = self else { return }
+            print("detailViewModel.trailerURL >> \(detailViewModel.trailerURL)")
+            
+            if detailViewModel.trailerURL.isEmpty {
+                self.showAlert(msg: "해당 영화의 예고편이 없습니다.")
+                return
+            }
+            
             let youTubePlayer: YouTubePlayer = YouTubePlayer(stringLiteral: detailViewModel.trailerURL)
             let youTubePlayerViewController = YouTubePlayerViewController (
                 player: youTubePlayer
             )
             youTubePlayerViewController.sheetPresentationController?.prefersGrabberVisible = true
             self.present(youTubePlayerViewController, animated: true) {
-                youTubePlayerViewController.player.play()
+//                youTubePlayerViewController.player.play()
             }
         }, for: .touchUpInside)
         trailerButton.titleLabel?.textColor = .lightGray
